@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 
 import "./globals.css";
 import Providers from "@/Providers";
+import { ProgressBar } from "@/components/UI/ProgressBar";
 import Header from "@/features/Header";
 import Footer from "@/features/Footer";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
                 suppressHydrationWarning
                 className="min-h-screen bg-background text-foreground"
             >
+                <ProgressBar />
                 <div id="modal-root">
                     <div id="mobile-nav" className="sm:hidden"></div>
                 </div>

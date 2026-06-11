@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/UI/Link";
 import { Heart, Handbag, User, LogOut } from "lucide-react";
 import ThemeToggle from "@/features/Theme/components/theme-toggle";
 import Search from "./Search";

@@ -1,5 +1,5 @@
 import { Zap } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/components/UI/Link";
 import { HiArrowLongRight } from "react-icons/hi2";
 import { IoStar } from "react-icons/io5";
 import { Check, RefreshCcw, ArrowDown } from "lucide-react";

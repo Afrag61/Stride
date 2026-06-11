@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/components/UI/Link";
 import useMobileNavigation from "../hooks/useMobileNavigation";
 import { Menu, X } from "lucide-react";
 

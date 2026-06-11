@@ -11,7 +11,7 @@ const Header = () => {
                 <span className="font-bold">STRIDE20</span> for 20% off your
                 first order
             </div>
-            <header className="bg-background/90 backdrop-blur-sm sticky top-0 border-b border-border z-50">
+            <header id="main-header" className="bg-background/90 backdrop-blur-sm sticky top-0 border-b border-border z-50">
                 <div className="mx-auto max-w-7xl px-4 lg:px-8">
                     <div className="flex h-16 items-center justify-between lg:h-20 ">
                         {/* Mobile Navigation Button */}

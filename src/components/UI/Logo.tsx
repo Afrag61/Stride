@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/UI/Link";
 import { FiZap } from "react-icons/fi";
 
 interface Props {

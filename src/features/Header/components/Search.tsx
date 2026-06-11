@@ -1,7 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/components/UI/Link";
 import useSearchModal from "../hooks/useSearchModal";
 import Input from "@/components/UI/Input";
 import Modal from "@/components/UI/Modal";
