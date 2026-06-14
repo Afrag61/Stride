@@ -10,18 +10,26 @@ function ThemeContextProvider({
     storageKey = "stride-theme",
     ...props
 }: ThemeContextProviderProps) {
-    const [theme, setTheme] = useState<Theme>(() =>
-        typeof window !== "undefined"
-            ? (localStorage.getItem(storageKey) as Theme) || defaultTheme
-            : defaultTheme,
-    );
+    const [theme, setTheme] = useState<Theme>(defaultTheme);
+
+    useEffect(() => {
+        const root = document.documentElement;
+        root.classList.add("no-transition");
+
+        const stored = localStorage.getItem(storageKey) as Theme;
+        if (stored) setTheme(stored);
+
+        requestAnimationFrame(() => {
+            root.classList.remove("no-transition");
+        });
+    }, []);
 
     useEffect(() => {
         const root = window.document.documentElement;
 
         root.classList.remove("light", "dark");
 
-        if (theme === "system") {
+        if (theme === Theme.SYSTEM) {
             const systemTheme = window.matchMedia(
                 "(prefers-color-scheme: dark)",
             ).matches

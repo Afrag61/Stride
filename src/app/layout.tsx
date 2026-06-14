@@ -28,11 +28,33 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const themeLoader = `(function() {
+                          try {
+                            var stored = localStorage.getItem('stride-theme');
+                            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                            var theme = stored || 'system';
+
+                            if (theme === 'dark' || (theme === 'system' && prefersDark)) {
+                                document.documentElement.classList.add('dark');
+                            } else {
+                                document.documentElement.classList.add('light');
+                            }
+                          } catch(e) {}
+                        })();`;
+
     return (
         <html
             lang="en"
+            suppressHydrationWarning
             className={`${inter.variable} ${outfit.variable} h-full antialiased`}
         >
+            <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: themeLoader,
+                    }}
+                />
+            </head>
             <body
                 suppressHydrationWarning
                 className="min-h-screen bg-background text-foreground"

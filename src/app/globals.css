@@ -196,3 +196,7 @@
 #nprogress .spinner {
     display: none;
 }
+
+.no-transition * {
+    transition: none !important;
+}
