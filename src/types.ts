@@ -28,3 +28,14 @@ export interface TProduct {
     isFavorite?: boolean;
 }
 export type TProductList = Array<TProduct>;
+
+export interface TTestimonial {
+    id: number;
+    name: string;
+    title: string;
+    comment: string;
+    rate: number;
+    image: string;
+}
+
+export type TTestimonialList = Array<TTestimonial>;

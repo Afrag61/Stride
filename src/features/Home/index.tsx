@@ -3,6 +3,7 @@ import Categories from "./components/Categories";
 import Featured from "./components/Products/Featured";
 import Features from "./components/Features";
 import New from "./components/Products/New";
+import Testimonials from "./components/Testimonials";
 
 const Index = () => {
     return (
@@ -12,6 +13,7 @@ const Index = () => {
             <Featured />
             <Features />
             <New />
+            <Testimonials />
         </>
     );
 };
