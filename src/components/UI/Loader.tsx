@@ -1,6 +1,32 @@
-const Loader = () => {
+interface Props {
+    size?: number;
+
+    className?: string;
+    strokeWidth?: number;
+}
+
+const Loader: React.FC<Props> = ({
+    size = 50,
+    className = "",
+    strokeWidth = 3,
+}) => {
     return (
-        <div className="my-20 w-5 h-5 mx-auto p-5 text-center rounded-full border-4 border-primary-600 border-t-transparent animate-spin shadow-sm"></div>
+        <svg
+            width={size}
+            height={size}
+            className={`animate-spin-slow ${className}`}
+            viewBox="0 0 50 50"
+        >
+            <circle
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                strokeWidth={strokeWidth}
+                className={`stroke-primary-500 animate-spinner-path`}
+                strokeLinecap="round"
+            />
+        </svg>
     );
 };
 

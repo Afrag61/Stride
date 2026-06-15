@@ -2,6 +2,7 @@
 import { handleNewsLetter } from "@/lib/newsLetter";
 import Input from "@/components/UI/Input";
 import { useActionState } from "react";
+import Loader from "@/components/UI/Loader";
 
 const initialState = {
     status: "",
@@ -40,7 +41,11 @@ const NewsLetter = () => {
                                     placeholder="Enter your email"
                                 />
                                 {isPending && (
-                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 mx-auto text-center rounded-full border-4 border-primary-500/80 border-t-transparent animate-spin shadow-sm" />
+                                    <Loader
+                                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                                        size={24}
+                                        strokeWidth={6}
+                                    />
                                 )}
                             </div>
                             <button
