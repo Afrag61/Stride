@@ -4,6 +4,7 @@ import Featured from "./components/Products/Featured";
 import Features from "./components/Features";
 import New from "./components/Products/New";
 import Testimonials from "./components/Testimonials";
+import Newsletter from "./components/Newsletter";
 
 const Index = () => {
     return (
@@ -14,6 +15,7 @@ const Index = () => {
             <Features />
             <New />
             <Testimonials />
+            <Newsletter />
         </>
     );
 };
