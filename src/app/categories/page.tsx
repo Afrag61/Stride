@@ -1,14 +1,9 @@
-const Page = () => {
-    return (
-        <div className="mx-auto py-10 flex items-center justify-center flex-col">
-            <h1 className="text-transparent bg-clip-text bg-linear-to-r from-primary-600 to-primary-900 font-display text-8xl font-bold mb-2">
-                Categories
-            </h1>
-            <p className="font-display text-lg text-primary-600 mt-20">
-                Categories page
-            </p>
-        </div>
-    );
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Categories | Stride",
+    description:
+        "Shop by category, find the perfect shoes for every occasion and activity",
 };
 
-export default Page;
+export { default } from "@/features/categories";
