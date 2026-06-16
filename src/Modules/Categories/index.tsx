@@ -1,7 +1,7 @@
 import PageHeader from "@/components/UI/PageHeader";
 import { Suspense } from "react";
 import CategoriesList from "./components/CategoriesList";
-import CategoryCardSkeleton from "@/components/UI/CategoryCardSkeleton";
+import CategoryCardSkeleton from "@/components/Skeleton/CategoryCardSkeleton";
 import Suggest from "./components/Suggest";
 
 const Index = () => {

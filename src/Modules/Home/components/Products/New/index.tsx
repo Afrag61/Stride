@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import NewProductsList from "./NewList";
 import SectionHeader from "@/components/UI/SectionHeader";
-import ProductItemSkeleton from "@/components/UI/ProductItemSkeleton";
+import ProductItemSkeleton from "@/components/Skeleton/ProductItemSkeleton";
 
 const Index = () => {
     return (

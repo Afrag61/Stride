@@ -1,9 +1,9 @@
 import PageHeader from "@/components/UI/PageHeader";
 import { Suspense } from "react";
 import Products from "./components/Products";
-import ProductsListSkeleton from "@/components/UI/ProductsListSkeleton";
+import ProductsListSkeleton from "@/components/Skeleton/ProductsListSkeleton";
 import Categories from "./components/Categories";
-import SideBarSkeleton from "@/components/UI/SideBarSkeleton";
+import SideBarSkeleton from "@/components/Skeleton/SideBarSkeleton";
 
 const Index = () => {
     return (

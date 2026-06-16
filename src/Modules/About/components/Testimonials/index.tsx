@@ -1,4 +1,4 @@
-import CustomerCardSkeleton from "@/components/UI/CustomerCardSkeleton";
+import CustomerCardSkeleton from "@/components/Skeleton/CustomerCardSkeleton";
 import { Suspense } from "react";
 import Testimonials from "./TestimonialsList";
 

@@ -4,8 +4,8 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Providers from "@/Providers";
 import { ProgressBar } from "@/components/UI/ProgressBar";
-import Header from "@/features/Header";
-import Footer from "@/features/Footer";
+import Header from "@/Modules/Header";
+import Footer from "@/Modules/Footer";
 
 export const inter = Inter({
     variable: "--font-inter",

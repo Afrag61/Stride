@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import ThemeContextProvider from "@/features/Theme/components/theme-provider";
+import ThemeContextProvider from "@/Modules/Theme/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 
 gsap.registerPlugin(useGSAP);

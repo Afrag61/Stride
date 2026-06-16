@@ -1,4 +1,4 @@
-import CategoryCardSkeleton from "@/components/UI/CategoryCardSkeleton";
+import CategoryCardSkeleton from "@/components/Skeleton/CategoryCardSkeleton";
 import { Suspense } from "react";
 import CategoriesGrid from "./CategoriesGrid";
 import SectionHeader from "@/components/UI/SectionHeader";

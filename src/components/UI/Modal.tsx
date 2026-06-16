@@ -1,7 +1,7 @@
 "use client";
 
-import usePort from "@/features/Header/hooks/usePort";
-import useScrollLock from "@/features/Header/hooks/useScrollLock";
+import usePort from "@/Modules/Header/hooks/usePort";
+import useScrollLock from "@/Modules/Header/hooks/useScrollLock";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useEffect } from "react";

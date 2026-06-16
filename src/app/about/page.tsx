@@ -5,4 +5,4 @@ export const metadata: Metadata = {
     description: "Learn about our story and mission",
 };
 
-export { default } from "@/features/about";
+export { default } from "@/Modules/About";

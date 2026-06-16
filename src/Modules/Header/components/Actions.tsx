@@ -1,6 +1,6 @@
 import { Link } from "@/components/UI/Link";
 import { Heart, Handbag, User, LogOut } from "lucide-react";
-import ThemeToggle from "@/features/Theme/components/theme-toggle";
+import ThemeToggle from "@/Modules/Theme/components/theme-toggle";
 import Search from "./Search";
 // import { useCart } from "@/hooks/useCart";
 // import { useAuth } from "@/hooks/useAuth";

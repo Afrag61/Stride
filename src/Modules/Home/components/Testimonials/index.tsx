@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import TestimonialsList from "./TestimonialsList";
-import CustomerCardSkeleton from "@/components/UI/CustomerCardSkeleton";
+import CustomerCardSkeleton from "@/components/Skeleton/CustomerCardSkeleton";
 
 const Index = () => {
     return (

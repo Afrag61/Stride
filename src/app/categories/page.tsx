@@ -6,4 +6,4 @@ export const metadata: Metadata = {
         "Shop by category, find the perfect shoes for every occasion and activity",
 };
 
-export { default } from "@/features/categories";
+export { default } from "@/Modules/Categories";
