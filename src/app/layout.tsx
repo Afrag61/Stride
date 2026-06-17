@@ -61,9 +61,7 @@ export default function RootLayout({
                 className="min-h-screen bg-background text-foreground"
             >
                 <ProgressBar />
-                <div id="modal-root">
-                    <div id="mobile-nav" className="sm:hidden"></div>
-                </div>
+                <div id="modal-root"></div>
                 <Providers>
                     <Header />
                     <main>{children}</main>
