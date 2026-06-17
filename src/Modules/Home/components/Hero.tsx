@@ -129,7 +129,7 @@ const Hero = () => {
                         </div>
                         {/* Sale badge */}
                         <div className="absolute right-8 top-8 z-20">
-                            <div className="sale-badge flex h-20 w-20 flex-col items-center justify-center rounded-full bg-primary-500 shadow-lg shadow-primary-500/50">
+                            <div className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-primary-500 shadow-lg shadow-primary-500/50">
                                 <span className="text-xs font-bold text-white">
                                     UP TO
                                 </span>

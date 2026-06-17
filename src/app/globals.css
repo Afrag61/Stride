@@ -190,10 +190,6 @@
     transform: rotate(3deg) translate(0, -4px);
 }
 
-#nprogress .spinner {
-    display: none;
-}
-
 .no-transition * {
     transition: none !important;
 }

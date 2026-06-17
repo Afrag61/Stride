@@ -38,7 +38,7 @@ const CategoryCard: React.FC<Props> = ({
             {/* Overlay */}
             <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent opacity-70 transition-opacity"></div>
             {/* Content */}
-            <div className="category-content absolute bottom-0 left-0 right-0 p-6 transition-transform">
+            <div className="absolute bottom-0 left-0 right-0 p-6 transition-transform">
                 <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
                     {products[0].count} products
                 </span>
