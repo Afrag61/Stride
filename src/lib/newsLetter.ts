@@ -3,10 +3,10 @@
 import emailjs from "@emailjs/nodejs";
 import { createClient } from "./supabase/server";
 
-const service_id = process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID!;
-const template_id = process.env.NEXT_PUBLIC_EMAIL_TEMPLATE_ID!;
-const Private_key = process.env.NEXT_PUBLIC_EMAIL_PRIVATE_KEY!;
-const Public_key = process.env.NEXT_PUBLIC_EMAIL_PUBLIC_KEY!;
+const service_id = process.env.EMAILJS_SERVICE_ID!;
+const template_id = process.env.EMAILJS_TEMPLATE_ID!;
+const Private_key = process.env.EMAILJS_PRIVATE_KEY!;
+const Public_key = process.env.EMAILJS_PUBLIC_KEY!;
 
 type THandleNewsLetter = (
     prevState: { status: string; message: string },
