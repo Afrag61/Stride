@@ -102,7 +102,9 @@ const ProductsList: React.FC<Props> = ({ products }) => {
                     );
                     break;
                 case "newest":
-                    result.sort((a, _b) => (a.tag.includes("NEW") ? -1 : 1));
+                    result.sort((a, b) =>
+                        a.tag === "NEW" ? -1 : b.tag === "NEW" ? 1 : 0,
+                    );
                     break;
                 case "top-rated":
                     result.sort((a, b) => b.rate - a.rate);
