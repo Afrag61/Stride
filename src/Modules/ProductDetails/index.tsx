@@ -1,0 +1,53 @@
+import { Suspense } from "react";
+import Details from "./components/Details";
+import ProductDetailsSkeleton from "@/components/Skeleton/ProductDetailsSkeleton";
+import Suggestions from "./components/Suggestions";
+import SuggestionsSkeleton from "@/components/Skeleton/SuggestionsSkeleton";
+import { createClient } from "@/lib/supabase/server";
+import { Metadata } from "next";
+
+export const generateMetadata = async ({
+    params,
+}: PageProps<"/products/[productId]">): Promise<Metadata> => {
+    const { productId } = await params;
+    const supabase = await createClient();
+
+    console.log(productId);
+
+    const { data: product, error } = await supabase
+        .from("products")
+        .select("name")
+        .eq("id", productId)
+        .single();
+
+    if (!product) {
+        return {
+            title: "Stride | Product Not Found",
+            description: "Product Not Found",
+        };
+    }
+
+    return {
+        title: `Stride - ${product.name}`,
+        description: `Stride - ${product.name}`,
+    };
+};
+
+const Index: React.FC<PageProps<"/products/[productId]">> = async ({
+    params,
+}) => {
+    const { productId } = await params;
+
+    return (
+        <>
+            <Suspense fallback={<ProductDetailsSkeleton />}>
+                <Details productId={productId} />
+            </Suspense>
+            <Suspense fallback={<SuggestionsSkeleton />}>
+                <Suggestions productId={productId} />
+            </Suspense>
+        </>
+    );
+};
+
+export default Index;
