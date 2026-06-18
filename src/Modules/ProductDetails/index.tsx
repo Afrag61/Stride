@@ -12,24 +12,22 @@ export const generateMetadata = async ({
     const { productId } = await params;
     const supabase = await createClient();
 
-    console.log(productId);
-
     const { data: product, error } = await supabase
         .from("products")
-        .select("name")
+        .select("name, description")
         .eq("id", productId)
         .single();
 
     if (!product) {
         return {
-            title: "Stride | Product Not Found",
+            title: "Product Not Found | Stride",
             description: "Product Not Found",
         };
     }
 
     return {
-        title: `Stride - ${product.name}`,
-        description: `Stride - ${product.name}`,
+        title: `${product.name} | Stride`,
+        description: product.description,
     };
 };
 
