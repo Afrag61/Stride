@@ -1,13 +1,15 @@
 import { Link } from "@/components/UI/Link";
 import { Heart, Handbag, User, LogOut } from "lucide-react";
+import { getUserData } from "@/Modules/Auth/actions";
 import ThemeToggle from "@/Modules/Theme/components/theme-toggle";
 import Search from "./Search";
+import Logout from "@/Modules/Auth/Logout";
 // import { useCart } from "@/hooks/useCart";
-// import { useAuth } from "@/hooks/useAuth";
 
-const Actions = () => {
+const Actions = async () => {
     // const { totalQuantity } = useCart();
-    // const { isAuthenticated, logout } = useAuth();
+
+    const isAuthenticated = await getUserData();
 
     return (
         <>
@@ -35,13 +37,7 @@ const Actions = () => {
                 </Link>
 
                 <div className="flex items-center gap-1 ml-2 border-l border-border pl-2">
-                    <Link
-                        href="/login"
-                        className="ml-2 hidden sm:flex items-center gap-2 rounded-full text-sm font-medium font-display transition-all hover:text-primary-600 dark:hover:text-primary-600  bg-transparent active:scale-95 dark:text-gray-300"
-                    >
-                        Sign In
-                    </Link>
-                    {/* {isAuthenticated ? (
+                    {isAuthenticated ? (
                         <>
                             <Link
                                 href="/account"
@@ -50,22 +46,16 @@ const Actions = () => {
                             >
                                 <User className="h-5 w-5" />
                             </Link>
-                            <button
-                                onClick={logout}
-                                className="rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 p-2 text-red-500 cursor-pointer"
-                                title="Logout"
-                            >
-                                <LogOut className="h-5 w-5" />
-                            </button>
+                            <Logout />
                         </>
                     ) : (
                         <Link
-                            to="/login"
+                            href="/login"
                             className="ml-2 hidden sm:flex items-center gap-2 rounded-full text-sm font-medium font-display text-gray-400 shadow-lg transition-all hover:text-primary-600 active:scale-95"
                         >
                             Sign In
                         </Link>
-                    )} */}
+                    )}
                 </div>
             </div>
         </>
