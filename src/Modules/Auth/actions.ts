@@ -11,13 +11,15 @@ export const login = async (data: TLoginFormData, redirectUrl: string) => {
             password: data.password,
         });
 
-        if (error?.code === "invalid_credentials") {
-            return { error: "Invalid email or password, please try again" };
+        if (error) {
+            if (error?.code === "invalid_credentials") {
+                return { error: "Invalid email or password, please try again" };
+            }
+            return { error: "Something went wrong. Please try again." };
         }
 
         return redirect(redirectUrl);
     } catch (error) {
-        console.log(error);
         if (error instanceof Error) throw error;
         throw new Error("Something went wrong. Please try again.");
     }
