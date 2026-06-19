@@ -12,7 +12,7 @@ export const login = async (data: TLoginFormData, redirectUrl: string) => {
         });
 
         if (error?.code === "invalid_credentials") {
-            throw new Error("Invalid Username or Password. Please try again.");
+            return { error: "Invalid email or password, please try again" };
         }
 
         return redirect(redirectUrl);

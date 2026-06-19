@@ -23,17 +23,23 @@ export const useLoginForm = () => {
 
     const onSubmit = async ({ email, password }: TLoginFormData) => {
         try {
-            await login({ email, password }, redirectTo);
+            const { error } = await login({ email, password }, redirectTo);
+
+            if (error) {
+                toast.error(error, {
+                    duration: 6000,
+                });
+            }
         } catch (error) {
             if (isRedirectError(error)) throw error;
 
             if (error instanceof Error) {
                 toast.error(error.message, {
-                    duration: 10000,
+                    duration: 6000,
                 });
             } else {
                 toast.error("Something went wrong. Please try again.", {
-                    duration: 10000,
+                    duration: 6000,
                 });
             }
         }
