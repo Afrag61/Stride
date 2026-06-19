@@ -6,13 +6,14 @@ import Providers from "@/Providers";
 import { ProgressBar } from "@/components/UI/ProgressBar";
 import Header from "@/Modules/Header";
 import Footer from "@/Modules/Footer";
+import { Suspense } from "react";
 
-export const inter = Inter({
+const inter = Inter({
     variable: "--font-inter",
     subsets: ["latin"],
 });
 
-export const outfit = Outfit({
+const outfit = Outfit({
     variable: "--font-outfit",
     subsets: ["latin"],
 });
@@ -60,7 +61,9 @@ export default function RootLayout({
                 suppressHydrationWarning
                 className="min-h-screen bg-background text-foreground"
             >
-                <ProgressBar />
+                <Suspense fallback={null}>
+                    <ProgressBar />
+                </Suspense>
                 <div id="modal-root"></div>
                 <Providers>
                     <Header />
