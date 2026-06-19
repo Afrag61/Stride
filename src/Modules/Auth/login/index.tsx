@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Login from "./components/Login";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "Login | Stride",
@@ -7,7 +8,11 @@ export const metadata: Metadata = {
 };
 
 const Index = () => {
-    return <Login />;
+    return (
+        <Suspense>
+            <Login />
+        </Suspense>
+    );
 };
 
 export default Index;
