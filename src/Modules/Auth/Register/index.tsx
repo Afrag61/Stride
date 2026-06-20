@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Register from "./components/Register";
 import type { Metadata } from "next";
 
@@ -7,7 +8,11 @@ export const metadata: Metadata = {
 };
 
 const Index = () => {
-    return <Register />;
+    return (
+        <Suspense>
+            <Register />;
+        </Suspense>
+    );
 };
 
 export default Index;
