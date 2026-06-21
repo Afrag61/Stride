@@ -1,4 +1,3 @@
-import ErrorMessage from "@/components/UI/ErrorMessage";
 import ProductsList from "./ProductsList";
 import { createClient } from "@/lib/supabase/server";
 import { TProductList } from "@/types";
@@ -10,7 +9,7 @@ const Products = async () => {
         .from("products")
         .select("*, category(id, name)");
 
-    if (error) return <ErrorMessage message="Failed to load products." />;
+    if (error) throw new Error("Failed to load products");
 
     const ProductsDataList = data as TProductList;
 

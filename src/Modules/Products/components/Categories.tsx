@@ -1,4 +1,3 @@
-import ErrorMessage from "@/components/UI/ErrorMessage";
 import { createClient } from "@/lib/supabase/server";
 import { TCategoryList } from "@/types";
 import SideBar from "./SideBar";
@@ -13,7 +12,7 @@ const Categories = async () => {
 
     const categories = data as TCategoryList;
 
-    if (error) return <ErrorMessage message={error.message} />;
+    if (error) throw new Error("Failed to Load Categories");
 
     return <SideBar categories={categories} />;
 };
