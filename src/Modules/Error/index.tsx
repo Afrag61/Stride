@@ -5,7 +5,6 @@ import { ErrorMessages } from "./enum";
 const Index: ErrorComponent = ({ error, unstable_retry: retry }) => {
     const message = ErrorMessages[error.cause as keyof typeof ErrorMessages];
 
-    console.log(error);
     return <ErrorMessage message={message} onRetry={retry} />;
 };
 

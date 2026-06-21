@@ -51,8 +51,6 @@ export const handleNewsLetter: THandleNewsLetter = async (
             message: "Subscription failed",
         };
     } catch (error) {
-        console.log(error);
-
         return {
             status: "failed",
             message: (error as Error).message || "Subscription failed",
