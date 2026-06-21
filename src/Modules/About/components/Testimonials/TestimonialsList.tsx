@@ -11,7 +11,7 @@ const Testimonials = async () => {
         .select()
         .limit(3);
 
-    if (error) return <ErrorMessage message="Failed to load testimonials" />;
+    if (error) return <ErrorMessage message="Failed to load Reviews" />;
 
     const testimonials = data as TTestimonialList;
 
