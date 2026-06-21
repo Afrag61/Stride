@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { TProduct } from "@/types";
 import ProductDetails from "./ProductDetails";
-import ErrorMessage from "@/components/UI/ErrorMessage";
 import { notFound } from "next/navigation";
 import { ErrorMessages } from "@/Modules/Error/enum";
 
