@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const Index = () => {
     return (
         <Suspense>
-            <Register />;
+            <Register />
         </Suspense>
     );
 };
