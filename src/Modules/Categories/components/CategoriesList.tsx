@@ -1,5 +1,4 @@
 import CategoryCard from "@/components/UI/CategoryCard";
-import ErrorMessage from "@/components/UI/ErrorMessage";
 import { createClient } from "@/lib/supabase/server";
 import { TCategoryList } from "@/types";
 
@@ -11,7 +10,7 @@ const CategoriesList = async () => {
         .select("*, products(count)")
         .order("sort_order", { ascending: true });
 
-    if (error) return <ErrorMessage message={error.message} />;
+    if (error) throw new Error("Failed to load categories");
 
     const categories = data as TCategoryList;
 
