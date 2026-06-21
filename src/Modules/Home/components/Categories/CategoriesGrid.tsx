@@ -14,10 +14,7 @@ const CategoriesGrid = async () => {
 
     const categories = data as TCategoryList;
 
-    if (error)
-        return (
-            <ErrorMessage message={error?.message ?? "Something went wrong"} />
-        );
+    if (error) return <ErrorMessage message={"Failed to Load Categories"} />;
 
     return (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">

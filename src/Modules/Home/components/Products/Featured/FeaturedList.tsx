@@ -11,7 +11,8 @@ const FeaturedList = async () => {
         .select("*, category(id, name)")
         .limit(7);
 
-    if (error) return <ErrorMessage message={error.message} />;
+    if (error)
+        return <ErrorMessage message={"Failed to load Featured Products"} />;
 
     const featuredProducts = data as TProductList;
 

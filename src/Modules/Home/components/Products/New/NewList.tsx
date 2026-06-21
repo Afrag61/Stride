@@ -14,7 +14,7 @@ const NewProductsList = async () => {
 
     const products = data as TProductList;
 
-    if (error) return <ErrorMessage message={error.message} />;
+    if (error) return <ErrorMessage message={"Failed to Load New Products"} />;
 
     return (
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

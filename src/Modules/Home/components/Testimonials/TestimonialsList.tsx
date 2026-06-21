@@ -8,7 +8,7 @@ const TestimonialsList = async () => {
 
     const { data, error } = await supabase.from("testimonials").select();
 
-    if (error) return <ErrorMessage message={error.message} />;
+    if (error) return <ErrorMessage message={"Failed to Load Reviews"} />;
 
     const testimonials = data as TTestimonialList;
 
