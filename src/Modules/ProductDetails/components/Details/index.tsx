@@ -17,11 +17,11 @@ const Index: React.FC<Props> = async ({ productId }) => {
         .eq("id", productId)
         .single();
 
-    if (!data) notFound();
-
     const product = (await data) as TProduct;
 
-    if (error) return <ErrorMessage message={error.message} />;
+    if (error?.code === "PGRST116") notFound();
+
+    if (error) throw new Error("Failed to Load Product");
 
     return <ProductDetails product={product} />;
 };
