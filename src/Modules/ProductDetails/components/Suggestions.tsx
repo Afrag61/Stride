@@ -18,7 +18,7 @@ const Suggestions: React.FC<Props> = async ({ productId }) => {
         .single();
 
     if (CategoryError)
-        return <ErrorMessage message={"Failed to load Related Category"} />;
+        return <ErrorMessage message={"Failed to Load Related Category"} />;
 
     const categoryId = categoryData?.category;
 
@@ -30,7 +30,7 @@ const Suggestions: React.FC<Props> = async ({ productId }) => {
         .limit(4);
 
     if (productsError)
-        return <ErrorMessage message={"Failed to load Related Products"} />;
+        return <ErrorMessage message={"Failed to Load Related Products"} />;
 
     const products = productsData as unknown as TProductList;
 
