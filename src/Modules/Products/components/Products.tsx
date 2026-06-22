@@ -1,6 +1,6 @@
 import ProductsList from "./ProductsList";
 import { createClient } from "@/lib/supabase/server";
-import { ErrorMessages } from "@/Modules/Error/enum";
+import ClientThrower from "@/Modules/Error/ClientThrower";
 import { TProductList } from "@/types";
 
 const Products = async () => {
@@ -10,10 +10,7 @@ const Products = async () => {
         .from("products")
         .select("*, category(id, name)");
 
-    if (error)
-        throw new Error("Failed to Load Products", {
-            cause: "LOAD_PRODUCTS_FAILED" satisfies keyof typeof ErrorMessages,
-        });
+    if (error) return <ClientThrower cause="LOAD_PRODUCTS_FAILED" />;
 
     const ProductsDataList = data as TProductList;
 

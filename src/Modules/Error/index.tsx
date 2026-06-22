@@ -1,3 +1,5 @@
+"use client";
+
 import ErrorMessage from "@/components/UI/ErrorMessage";
 import { ErrorComponent } from "next/dist/client/components/error-boundary";
 import { ErrorMessages } from "./enum";
