@@ -39,3 +39,13 @@ export interface TTestimonial {
 }
 
 export type TTestimonialList = Array<TTestimonial>;
+
+export interface TWishlistItem {
+    id: number;
+    user_id: string;
+    product_id: number;
+    created_at: string;
+    products: TProduct;
+}
+
+export type TWishlistList = Array<TWishlistItem>;

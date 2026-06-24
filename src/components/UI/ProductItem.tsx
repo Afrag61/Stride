@@ -1,14 +1,17 @@
+"use client";
+
 import type { TProduct } from "@/types";
-import { calculateDiscount } from "@/lib/calculateDiscount";
 import { Handbag, Heart, Star } from "lucide-react";
 import { Link } from "@/components/UI/Link";
 import Image from "next/image";
-// import toast from "react-hot-toast";
+import { addToWishlist, removeFromWishlist } from "@/Modules/Wishlist/actions";
+
 // import { useCart } from "@/hooks/useCart";
-// import { useWishList } from "@/hooks/useWishList";
-// import { useAuth } from "@/hooks/useAuth";
-// import { useNavigate } from "react-router";
-// import { useState } from "react";
+
+import { useEffect, useOptimistic, useState, useTransition } from "react";
+import { supabase } from "@/lib/supabase/client";
+import toast from "react-hot-toast";
+import { useRouter, usePathname } from "next/navigation";
 
 interface Props extends TProduct {}
 
@@ -24,48 +27,70 @@ const ProductItem: React.FC<Props> = ({
     rate,
     tag,
     price_after_discount,
+    isFavorite,
 }) => {
-    // const { addToWishlist, removeFromWishlist, wishlist } = useWishList();
     // const { handleAddToCart } = useCart();
-    // const { isAuthenticated } = useAuth();
-    // const navigate = useNavigate();
 
-    const { priceAfterDiscount } = calculateDiscount(price, discount);
+    const router = useRouter();
+    const pathname = usePathname();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // const isFavorite = wishlist.some(
-    //     (wishlistItem) => wishlistItem.product_id === id,
-    // );
-    // const [isLiked, setIsLiked] = useState(isFavorite);
+    useEffect(() => {
+        (async () => {
+            const { data, error } = await supabase.auth.getUser();
 
-    // const handleLike = () => {
-    //     if (!isAuthenticated) {
-    //         toast.error("Please sign in to manage your wishlist");
-    //         navigate("/login");
-    //         return;
-    //     }
+            setIsAuthenticated(!!data.user);
+        })();
+    }, []);
 
-    //     if (!isLiked) {
-    //         const promise = addToWishlist(id).unwrap();
-    //         toast
-    //             .promise(promise, {
-    //                 loading: "Adding to wishlist...",
-    //                 success: "Added to wishlist",
-    //                 error: "Failed to add to wishlist",
-    //             })
-    //             .then(() => setIsLiked(true))
-    //             .catch(() => {});
-    //     } else {
-    //         const promise = removeFromWishlist(id).unwrap();
-    //         toast
-    //             .promise(promise, {
-    //                 loading: "Removing from wishlist...",
-    //                 success: "Removed from wishlist",
-    //                 error: "Failed to remove from wishlist",
-    //             })
-    //             .then(() => setIsLiked(false))
-    //             .catch(() => {});
-    //     }
-    // };
+    const [isLiked, setIsLiked] = useState(isFavorite);
+    const [optimisticIsLiked, toggleOptimisticLike] = useOptimistic(
+        isLiked,
+        (currentState, _) => !currentState,
+    );
+    const [pending, startTransition] = useTransition();
+
+    const handleLike = async () => {
+        if (!isAuthenticated) {
+            toast.error("Please sign in to manage your wishlist");
+            router.push(`/login?next=${pathname}`);
+            return;
+        }
+
+        startTransition(async () => {
+            toggleOptimisticLike(null);
+
+            const wasLiked = isLiked;
+
+            if (!wasLiked) {
+                setIsLiked(true);
+                const error = await addToWishlist(id);
+
+                if (error) {
+                    setIsLiked(wasLiked);
+                    if (error.code === "23505") {
+                        toast.error("Product already in wishlist");
+                        setIsLiked(true);
+                        return;
+                    }
+                    toast.error("Something went wrong");
+                    setIsLiked(wasLiked);
+
+                    return;
+                }
+                toast.success("Added to wishlist");
+            } else {
+                setIsLiked(false);
+                const error = await removeFromWishlist(id);
+                if (error) {
+                    setIsLiked(wasLiked);
+                    toast.error("Something went wrong");
+                    return;
+                }
+                toast.success("Removed from wishlist");
+            }
+        });
+    };
 
     // const handleCart: React.MouseEventHandler = (e) => {
     //     e.preventDefault();
@@ -131,15 +156,19 @@ const ProductItem: React.FC<Props> = ({
                             Cart
                         </button>
                         <button
-                            // onClick={(e) => {
-                            //     e.preventDefault();
-                            //      handleLike();
-                            // }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleLike();
+                            }}
+                            disabled={pending}
                             className="flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-lg transition-colors hover:bg-gray-100 dark:text-black cursor-pointer"
                         >
                             <Heart
-                                // fill={isLiked ? "currentcolor" : "none"}
-                                className={`h-4 w-4 `}
+                                className={`h-4 w-4 transition-all duration-200 ${pending && "animate-pulse"} ${
+                                    optimisticIsLiked
+                                        ? "fill-red-500 stroke-red-500 scale-110"
+                                        : "fill-none stroke-red-600"
+                                }`}
                             />
                         </button>
                     </div>
@@ -189,7 +218,7 @@ const ProductItem: React.FC<Props> = ({
                 <div className="mt-3 flex items-center gap-1.5">
                     {colors.map((color, idx) => (
                         <span
-                            key={`${color.value}-${idx}-${Math.random()}`}
+                            key={`${color.value}-${idx}`}
                             className={`h-4 w-4 rounded-full border border-gray-300 dark:border-gray-600`}
                             style={{ backgroundColor: color.value }}
                             title={color.name}

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import WishlistPage from "./components/WishlistPage";
 
 export const metadata: Metadata = {
     title: "Wishlist | Stride",
@@ -6,8 +7,8 @@ export const metadata: Metadata = {
         "Your saved items. Keep track of products you love and buy them when you're ready.",
 };
 
-const Wishlist = () => {
-    return <div>Wishlist</div>;
+const Wishlist = async () => {
+    return <WishlistPage />;
 };
 
 export default Wishlist;
