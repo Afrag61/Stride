@@ -5,6 +5,7 @@ import { VscHeart } from "react-icons/vsc";
 import { Link } from "@/components/UI/Link";
 import WishlistHeader from "./WishlistHeader";
 import { createClient } from "@/lib/supabase/server";
+import ClientThrower from "@/Modules/Error/ClientThrower";
 
 let content;
 
@@ -17,6 +18,9 @@ const WishListProducts = async () => {
         .from("wishlist")
         .select("*,products(*, category(id, name))")
         .eq("user_id", user?.user?.id);
+
+    if (error || userError)
+        return <ClientThrower cause="LOAD_WISHLIST_FAILED" />;
 
     const wishlist = data as TWishlistList;
 

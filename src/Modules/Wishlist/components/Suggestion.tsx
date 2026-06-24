@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/UI/ErrorMessage";
 import { Link } from "@/components/UI/Link";
 import ProductItem from "@/components/UI/ProductItem";
 import { createClient } from "@/lib/supabase/server";
@@ -9,8 +10,9 @@ const Suggestion = async () => {
     const { data, error } = await supabase
         .from("products")
         .select("*")
-
         .limit(4);
+
+    if (error) return <ErrorMessage message={"Failed to Load Products"} />;
 
     const products = data as TProductList;
 
