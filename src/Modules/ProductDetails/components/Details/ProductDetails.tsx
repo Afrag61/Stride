@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useOptimistic, useState, useTransition } from "react";
 import { Link } from "@/components/UI/Link";
 import BreadCrumb from "@/components/UI/BreadCrumb";
 
@@ -10,11 +10,11 @@ import ProductActions from "./ProductActions";
 import ProductMaterials from "./ProductMaterials";
 import { TProduct } from "@/types";
 import { CarFront, RefreshCcw, StarIcon } from "lucide-react";
-// import { useWishList } from "@/hooks/useWishList";
+import { addToWishlist, removeFromWishlist } from "@/Modules/Wishlist/actions";
+import toast from "react-hot-toast";
+import { supabase } from "@/lib/supabase/client";
+import { usePathname, useRouter } from "next/navigation";
 // import { useCart } from "@/hooks/useCart";
-// import { useAuth } from "@/hooks/useAuth";
-// import { useNavigate } from "react-router";
-// import { useGetProductByIdQuery } from "@/store/api";
 
 interface Props {
     product: TProduct;
@@ -23,38 +23,68 @@ interface Props {
 const ProductDetails: React.FC<Props> = ({ product }) => {
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
     const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
-    // const { addToWishlist, removeFromWishlist, wishlist } = useWishList();
+    const [isLiked, setIsLiked] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [optimisticIsLiked, toggleOptimisticLike] = useOptimistic(
+        isLiked,
+        (state) => !state,
+    );
+    const [isPending, startTransition] = useTransition();
+
+    const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        (async () => {
+            const { data, error } = await supabase.auth.getUser();
+
+            setIsAuthenticated(!!data.user);
+        })();
+    }, []);
+
     // const { handleAddToCart } = useCart();
-    // const { isAuthenticated } = useAuth();
-    // const navigate = useNavigate();
 
-    // const handleWishList = () => {
-    //     if (!isAuthenticated) {
-    //         toast.error("Please sign in to manage your wishlist");
-    //         navigate("/login");
-    //         return;
-    //     }
+    const handleWishList = async () => {
+        if (!isAuthenticated) {
+            toast.error("Please sign in to manage your wishlist");
+            router.push(`/login?next=${pathname}`);
+            return;
+        }
 
-    //     if (!isFavorite && product?.id) {
-    //         const promise = addToWishlist(product.id).unwrap();
-    //         toast
-    //             .promise(promise, {
-    //                 loading: "Adding to wishlist...",
-    //                 success: "Added to wishlist",
-    //                 error: "Failed to add to wishlist",
-    //             })
-    //             .catch(() => {});
-    //     } else if (product?.id) {
-    //         const promise = removeFromWishlist(product.id).unwrap();
-    //         toast
-    //             .promise(promise, {
-    //                 loading: "Removing from wishlist...",
-    //                 success: "Removed from wishlist",
-    //                 error: "Failed to remove from wishlist",
-    //             })
-    //             .catch(() => {});
-    //     }
-    // };
+        startTransition(async () => {
+            toggleOptimisticLike(null);
+
+            const wasLiked = isLiked;
+
+            if (!wasLiked) {
+                setIsLiked(true);
+                const error = await addToWishlist(product.id);
+
+                if (error) {
+                    setIsLiked(wasLiked);
+                    if (error.code === "23505") {
+                        toast.error("Product already in wishlist");
+                        setIsLiked(true);
+                        return;
+                    }
+                    toast.error("Something went wrong");
+                    setIsLiked(wasLiked);
+
+                    return;
+                }
+                toast.success("Added to wishlist");
+            } else {
+                setIsLiked(false);
+                const error = await removeFromWishlist(product.id);
+                if (error) {
+                    setIsLiked(wasLiked);
+                    toast.error("Something went wrong");
+                    return;
+                }
+                toast.success("Removed from wishlist");
+            }
+        });
+    };
 
     const rate = product?.rate || 0;
     const stars = Array.from({ length: 5 }, (_, index) => (
@@ -182,7 +212,11 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
                             />
 
                             {/* Product Actions */}
-                            <ProductActions />
+                            <ProductActions
+                                handleAddToWishlist={handleWishList}
+                                isFavorite={optimisticIsLiked}
+                                isLoading={isPending}
+                            />
 
                             {/* Product Features */}
                             <div className="mt-8 grid grid-cols-2 gap-4">

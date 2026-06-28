@@ -4,12 +4,14 @@ interface Props {
     handleAddToCart?: () => void;
     handleAddToWishlist?: () => void;
     isFavorite?: boolean;
+    isLoading?: boolean;
 }
 
 const ProductActions: React.FC<Props> = ({
     handleAddToCart = () => {},
     handleAddToWishlist = () => {},
     isFavorite = false,
+    isLoading,
 }) => {
     return (
         <div className="mt-8 flex gap-4">
@@ -22,14 +24,14 @@ const ProductActions: React.FC<Props> = ({
             </button>
             <button
                 onClick={handleAddToWishlist}
-                className={`flex h-14 w-14 items-center justify-center rounded-full border-2 border-gray-300 transition-colors hover:border-red-500 dark:hover:border-red-500 hover:text-red-500 dark:border-gray-600 cursor-pointer ${
+                disabled={isLoading}
+                className={`flex h-14 w-14 items-center justify-center rounded-full border-2 border-gray-300 transition-colors hover:border-red-500 dark:hover:border-red-500 hover:text-red-500 dark:border-gray-600 cursor-pointer ${isLoading && "animate-pulse"} ${
                     isFavorite &&
                     "border-red-500 dark:border-red-500 text-red-500 dark:hover:border-red-500 hover:text-red-500"
                 }`}
             >
                 <HeartIcon
-                    className="h-6 w-6"
-                    fill={isFavorite ? "currentColor" : "transparent"}
+                    className={`h-6 w-6 ${isFavorite ? "fill-current" : "fill-none"}`}
                 />
             </button>
         </div>
