@@ -51,7 +51,7 @@ const Actions = async () => {
                     ) : (
                         <Link
                             href="/login"
-                            className="ml-2 hidden sm:flex items-center gap-2 rounded-full text-sm font-medium font-display text-gray-500 dark:text-gray-400 transition-all hover:text-primary-600 active:scale-95"
+                            className="ml-2 hidden sm:flex text-sm font-medium font-display text-white px-2.5 py-1 rounded-lg bg-primary-600 hover:bg-primary-700 shadow-md hover:shadow-lg shadow-primary-500/30 hover:shadow-primary-700/30 transition-all duration-300"
                         >
                             Sign In
                         </Link>
