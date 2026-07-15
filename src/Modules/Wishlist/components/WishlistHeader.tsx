@@ -45,7 +45,10 @@ const WishlistHeader: React.FC<Props> = ({ length }) => {
                 onOpen={() => setIsModalOpen(true)}
                 onClose={() => setIsModalOpen(false)}
                 render={(handleCloseAnimation) => (
-                    <div className="modal-content mx-auto max-w-2xl rounded-2xl dark:bg-gray-900 bg-gray-50">
+                    <div
+                        className="modal-content mx-auto max-w-2xl rounded-2xl dark:bg-gray-900 bg-gray-50"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="p-6">
                             <p className="text-lg mb-4 text-center text-gray-950 dark:text-gray-50 py-8">
                                 Are you sure you want to clear your wishlist?
