@@ -4,8 +4,15 @@ import Products from "./components/Products";
 import ProductsListSkeleton from "@/components/Skeleton/ProductsListSkeleton";
 import Categories from "./components/Categories";
 import SideBarSkeleton from "@/components/Skeleton/SideBarSkeleton";
+import { createClient } from "@/lib/supabase/server";
 
-const Index = () => {
+const Index = async () => {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
     return (
         <>
             <PageHeader
@@ -25,7 +32,7 @@ const Index = () => {
                                 }
                             >
                                 <Categories />
-                                <Products />
+                                <Products isAuthenticated={!!user} />
                             </Suspense>
                         </div>
                     </div>

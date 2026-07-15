@@ -6,10 +6,11 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 interface Props {
+    isAuthenticated: boolean;
     products: TProductList;
 }
 
-const ProductsList: React.FC<Props> = ({ products }) => {
+const ProductsList: React.FC<Props> = ({ products, isAuthenticated }) => {
     const searchParams = useSearchParams();
     const pathName = usePathname();
     const router = useRouter();
@@ -180,7 +181,11 @@ const ProductsList: React.FC<Props> = ({ products }) => {
             ) : (
                 <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
                     {filteredProducts.map((product) => (
-                        <ProductItem key={product.id} {...product} />
+                        <ProductItem
+                            key={product.id}
+                            {...product}
+                            isAuthenticated={isAuthenticated}
+                        />
                     ))}
                 </div>
             )}

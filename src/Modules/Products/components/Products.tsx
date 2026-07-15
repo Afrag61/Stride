@@ -3,7 +3,11 @@ import { createClient } from "@/lib/supabase/server";
 import ClientThrower from "@/Modules/Error/ClientThrower";
 import { TProductList } from "@/types";
 
-const Products = async () => {
+interface Props {
+    isAuthenticated: boolean;
+}
+
+const Products: React.FC<Props> = async ({ isAuthenticated }) => {
     const supabase = await createClient();
 
     const { data, error } = await supabase
@@ -16,7 +20,10 @@ const Products = async () => {
 
     return (
         <>
-            <ProductsList products={ProductsDataList} />
+            <ProductsList
+                products={ProductsDataList}
+                isAuthenticated={isAuthenticated}
+            />
         </>
     );
 };
