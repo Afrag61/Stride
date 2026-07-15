@@ -3,11 +3,7 @@ import NewProductsList from "./NewList";
 import SectionHeader from "@/components/UI/SectionHeader";
 import ProductItemSkeleton from "@/components/Skeleton/ProductItemSkeleton";
 
-interface Props {
-    isAuthenticated: boolean;
-}
-
-const Index: React.FC<Props> = ({ isAuthenticated }) => {
+const Index = () => {
     return (
         <div className="bg-white py-20 dark:bg-gray-950 lg:py-28">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
@@ -27,7 +23,7 @@ const Index: React.FC<Props> = ({ isAuthenticated }) => {
                         </div>
                     }
                 >
-                    <NewProductsList isAuthenticated={isAuthenticated} />
+                    <NewProductsList />
                 </Suspense>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { Link } from "@/components/UI/Link";
 import { Heart, Handbag, User, LogOut } from "lucide-react";
-import { getUserData } from "@/Modules/Auth/actions";
+import { getUser } from "@/Modules/Auth/lib/getUser";
 import ThemeToggle from "@/Modules/Theme/components/theme-toggle";
 import Search from "./Search";
 import Logout from "@/Modules/Auth/Logout";
@@ -9,7 +9,7 @@ import Logout from "@/Modules/Auth/Logout";
 const Actions = async () => {
     // const { totalQuantity } = useCart();
 
-    const isAuthenticated = await getUserData();
+    const user = await getUser();
 
     return (
         <>
@@ -37,7 +37,7 @@ const Actions = async () => {
                 </Link>
 
                 <div className="flex items-center gap-1 ml-2 border-l border-border pl-2">
-                    {isAuthenticated ? (
+                    {!!user ? (
                         <>
                             <Link
                                 href="/account"

@@ -2,10 +2,10 @@ import ProductItem from "@/components/UI/ProductItem";
 import ErrorMessage from "@/components/UI/ErrorMessage";
 import { createClient } from "@/lib/supabase/server";
 import { TProductList } from "@/types";
-interface Props {
-    isAuthenticated: boolean;
-}
-const NewProductsList: React.FC<Props> = async ({ isAuthenticated }) => {
+import { getUser } from "@/Modules/Auth/lib/getUser";
+
+const NewProductsList = async () => {
+    const user = await getUser();
     const supabase = await createClient();
 
     const { data, error } = await supabase
@@ -24,7 +24,7 @@ const NewProductsList: React.FC<Props> = async ({ isAuthenticated }) => {
                 <ProductItem
                     {...product}
                     key={product.name}
-                    isAuthenticated={isAuthenticated}
+                    isAuthenticated={!!user}
                 />
             ))}
         </div>
