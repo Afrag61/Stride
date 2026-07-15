@@ -5,15 +5,21 @@ import Features from "./components/Features";
 import New from "./components/Products/New";
 import Testimonials from "./components/Testimonials";
 import Newsletter from "./components/Newsletter";
+import { createClient } from "@/lib/supabase/server";
 
-const Index = () => {
+const Index = async () => {
+    const supabase = await createClient();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
     return (
         <>
             <Hero />
             <Categories />
-            <Featured />
+            <Featured isAuthenticated={!!user} />
             <Features />
-            <New />
+            <New isAuthenticated={!!user} />
             <Testimonials />
             <Newsletter />
         </>

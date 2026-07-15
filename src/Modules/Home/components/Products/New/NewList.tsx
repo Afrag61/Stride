@@ -2,8 +2,10 @@ import ProductItem from "@/components/UI/ProductItem";
 import ErrorMessage from "@/components/UI/ErrorMessage";
 import { createClient } from "@/lib/supabase/server";
 import { TProductList } from "@/types";
-
-const NewProductsList = async () => {
+interface Props {
+    isAuthenticated: boolean;
+}
+const NewProductsList: React.FC<Props> = async ({ isAuthenticated }) => {
     const supabase = await createClient();
 
     const { data, error } = await supabase
@@ -19,7 +21,11 @@ const NewProductsList = async () => {
     return (
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {products.map((product) => (
-                <ProductItem {...product} key={product.name} />
+                <ProductItem
+                    {...product}
+                    key={product.name}
+                    isAuthenticated={isAuthenticated}
+                />
             ))}
         </div>
     );

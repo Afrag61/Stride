@@ -8,12 +8,13 @@ import { addToWishlist, removeFromWishlist } from "@/Modules/Wishlist/actions";
 
 // import { useCart } from "@/hooks/useCart";
 
-import { useEffect, useOptimistic, useState, useTransition } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { useOptimistic, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
 
-interface Props extends TProduct {}
+interface Props extends TProduct {
+    isAuthenticated: boolean;
+}
 
 const ProductItem: React.FC<Props> = ({
     id,
@@ -28,20 +29,12 @@ const ProductItem: React.FC<Props> = ({
     tag,
     price_after_discount,
     isFavorite,
+    isAuthenticated,
 }) => {
     // const { handleAddToCart } = useCart();
 
     const router = useRouter();
     const pathname = usePathname();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    useEffect(() => {
-        (async () => {
-            const { data, error } = await supabase.auth.getUser();
-
-            setIsAuthenticated(!!data.user);
-        })();
-    }, []);
 
     const [isLiked, setIsLiked] = useState(isFavorite);
     const [optimisticIsLiked, toggleOptimisticLike] = useOptimistic(
