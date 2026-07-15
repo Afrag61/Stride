@@ -2,10 +2,12 @@ import ErrorMessage from "@/components/UI/ErrorMessage";
 import { Link } from "@/components/UI/Link";
 import ProductItem from "@/components/UI/ProductItem";
 import { createClient } from "@/lib/supabase/server";
+import { getUser } from "@/Modules/Auth/lib/getUser";
 import { TProductList } from "@/types";
 
 const Suggestion = async () => {
     const supabase = await createClient();
+    const user = await getUser();
 
     const { data, error } = await supabase
         .from("products")
@@ -34,7 +36,11 @@ const Suggestion = async () => {
                 {/* ProductSuggestions */}
                 <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
                     {products.map((product) => (
-                        <ProductItem key={product.id} {...product} />
+                        <ProductItem
+                            key={product.id}
+                            {...product}
+                            isAuthenticated={!!user}
+                        />
                     ))}
                 </div>
             </div>

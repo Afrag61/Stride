@@ -6,18 +6,22 @@ import { Link } from "@/components/UI/Link";
 import WishlistHeader from "./WishlistHeader";
 import { createClient } from "@/lib/supabase/server";
 import ClientThrower from "@/Modules/Error/ClientThrower";
+import { getUser } from "@/Modules/Auth/lib/getUser";
 
 let content;
 
 const WishListProducts = async () => {
     const supabase = await createClient();
 
-    const { data: user, error: userError } = await supabase.auth.getUser();
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
 
     const { data, error } = await supabase
         .from("wishlist")
         .select("*,products(*, category(id, name))")
-        .eq("user_id", user?.user?.id);
+        .eq("user_id", user?.id);
 
     if (error || userError)
         return <ClientThrower cause="LOAD_WISHLIST_FAILED" />;
@@ -56,6 +60,7 @@ const WishListProducts = async () => {
                         <ProductItem
                             key={wishlistItem.id}
                             {...wishlistItem.products}
+                            isAuthenticated={!!user}
                             isFavorite
                         />
                     );

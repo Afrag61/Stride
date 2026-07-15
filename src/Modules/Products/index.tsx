@@ -5,7 +5,7 @@ import ProductsListSkeleton from "@/components/Skeleton/ProductsListSkeleton";
 import Categories from "./components/Categories";
 import SideBarSkeleton from "@/components/Skeleton/SideBarSkeleton";
 
-const Index = () => {
+const Index = async () => {
     return (
         <>
             <PageHeader
