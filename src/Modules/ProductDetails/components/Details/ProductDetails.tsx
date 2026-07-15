@@ -36,9 +36,12 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
 
     useEffect(() => {
         (async () => {
-            const { data, error } = await supabase.auth.getUser();
+            const {
+                data: { user },
+                error,
+            } = await supabase.auth.getUser();
 
-            setIsAuthenticated(!!data.user);
+            setIsAuthenticated(!!user);
         })();
     }, []);
 
