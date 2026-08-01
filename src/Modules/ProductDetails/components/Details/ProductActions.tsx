@@ -1,7 +1,7 @@
 import { Handbag, HeartIcon } from "lucide-react";
 
 interface Props {
-    handleAddToCart?: () => void;
+    handleAddToCart: () => void;
     handleAddToWishlist?: () => void;
     isFavorite?: boolean;
     isLoading?: boolean;

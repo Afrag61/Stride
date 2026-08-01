@@ -14,17 +14,18 @@ import { addToWishlist, removeFromWishlist } from "@/Modules/Wishlist/actions";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabase/client";
 import { usePathname, useRouter } from "next/navigation";
-// import { useCart } from "@/hooks/useCart";
+import { useCart } from "@/Modules/Cart/hooks/useCart";
 
 interface Props {
     product: TProduct;
+    isAuthenticated: boolean;
 }
 
-const ProductDetails: React.FC<Props> = ({ product }) => {
+const ProductDetails: React.FC<Props> = ({ product, isAuthenticated }) => {
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
     const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    // const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [optimisticIsLiked, toggleOptimisticLike] = useOptimistic(
         isLiked,
         (state) => !state,
@@ -34,18 +35,18 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
     const router = useRouter();
     const pathname = usePathname();
 
-    useEffect(() => {
-        (async () => {
-            const {
-                data: { user },
-                error,
-            } = await supabase.auth.getUser();
+    // useEffect(() => {
+    //     (async () => {
+    //         const {
+    //             data: { user },
+    //             error,
+    //         } = await supabase.auth.getUser();
 
-            setIsAuthenticated(!!user);
-        })();
-    }, []);
+    //         setIsAuthenticated(!!user);
+    //     })();
+    // }, []);
 
-    // const { handleAddToCart } = useCart();
+    const { handleAddToCart } = useCart();
 
     const handleWishList = async () => {
         if (!isAuthenticated) {
@@ -105,32 +106,32 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
         setSelectedSizeIndex(sizeIndex);
     };
 
-    // const handleCart = () => {
-    //     if (!isAuthenticated) {
-    //         toast.error("Please sign in to add items to your cart");
-    //         navigate("/login");
-    //         return;
-    //     }
+    const handleCart = () => {
+        if (!isAuthenticated) {
+            toast.error("Please sign in to add items to your cart");
+            router.push(`/login?next=${pathname}`);
+            return;
+        }
 
-    //     if (!product?.id) {
-    //         return;
-    //     }
+        if (!product?.id) {
+            return;
+        }
 
-    //     handleAddToCart({
-    //         productId: product.id,
-    //         name: product.name,
-    //         price: product.price,
-    //         quantity: 1,
-    //         image: product.images[0],
-    //         color: product.colors[selectedColorIndex],
-    //         size: product.availableSizes[selectedSizeIndex],
-    //         discount: product.discount,
-    //         discountedPrice: product.price_after_discount,
-    //         totalPrice: product.price,
-    //     });
+        handleAddToCart({
+            productId: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            image: product.images[0],
+            color: product.colors[selectedColorIndex],
+            size: product.availableSizes[selectedSizeIndex],
+            discount: product.discount,
+            discountedPrice: product.price_after_discount,
+            totalPrice: product.price,
+        });
 
-    //     toast.success("Added to Cart");
-    // };
+        toast.success("Added to Cart");
+    };
 
     return (
         <>
@@ -219,6 +220,7 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
                                 handleAddToWishlist={handleWishList}
                                 isFavorite={optimisticIsLiked}
                                 isLoading={isPending}
+                                handleAddToCart={handleCart}
                             />
 
                             {/* Product Features */}

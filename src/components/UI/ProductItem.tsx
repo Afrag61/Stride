@@ -5,9 +5,7 @@ import { Handbag, Heart, Star } from "lucide-react";
 import { Link } from "@/components/UI/Link";
 import Image from "next/image";
 import { addToWishlist, removeFromWishlist } from "@/Modules/Wishlist/actions";
-
-// import { useCart } from "@/hooks/useCart";
-
+import { useCart } from "@/Modules/Cart/hooks/useCart";
 import { useOptimistic, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
@@ -31,7 +29,7 @@ const ProductItem: React.FC<Props> = ({
     isFavorite,
     isAuthenticated,
 }) => {
-    // const { handleAddToCart } = useCart();
+    const { handleAddToCart } = useCart();
 
     const router = useRouter();
     const pathname = usePathname();
@@ -85,30 +83,30 @@ const ProductItem: React.FC<Props> = ({
         });
     };
 
-    // const handleCart: React.MouseEventHandler = (e) => {
-    //     e.preventDefault();
+    const handleCart: React.MouseEventHandler = (e) => {
+        e.preventDefault();
 
-    //     if (!isAuthenticated) {
-    //         toast.error("Please sign in to add items to your cart");
-    //         navigate("/login");
-    //         return;
-    //     }
+        if (!isAuthenticated) {
+            toast.error("Please sign in to add items to your cart");
+            router.push(`/login?next=${pathname}`);
+            return;
+        }
 
-    //     handleAddToCart({
-    //         price,
-    //         name,
-    //         color: colors[0],
-    //         size: availableSizes[0],
-    //         image: images[0],
-    //         discount,
-    //         discountedPrice: priceAfterDiscount,
-    //         quantity: 1,
-    //         productId: id,
-    //         totalPrice: price,
-    //     });
+        handleAddToCart({
+            price,
+            name,
+            color: colors[0],
+            size: availableSizes[0],
+            image: images[0],
+            discount,
+            discountedPrice: price_after_discount,
+            quantity: 1,
+            productId: id,
+            totalPrice: price,
+        });
 
-    //     toast.success("Added to Cart");
-    // };
+        toast.success("Added to Cart");
+    };
 
     return (
         <div className="group relative">
@@ -142,7 +140,7 @@ const ProductItem: React.FC<Props> = ({
                     {/* Quick Actions */}
                     <div className="absolute bottom-3 left-3 right-3 flex gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100 max-sm:opacity-100">
                         <button
-                            // onClick={handleCart}
+                            onClick={handleCart}
                             className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-white py-2.5 text-sm font-semibold text-gray-900 shadow-lg transition-colors hover:bg-gray-100 cursor-pointer"
                         >
                             <Handbag className="h-4 w-4 text-gray-950" /> Add to

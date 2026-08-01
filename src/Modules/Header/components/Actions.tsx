@@ -4,11 +4,9 @@ import { getUser } from "@/Modules/Auth/lib/getUser";
 import ThemeToggle from "@/Modules/Theme/components/theme-toggle";
 import Search from "./Search";
 import Logout from "@/Modules/Auth/Logout";
-// import { useCart } from "@/hooks/useCart";
+import CartButton from "./CartButton";
 
 const Actions = async () => {
-    // const { totalQuantity } = useCart();
-
     const user = await getUser();
 
     return (
@@ -26,15 +24,7 @@ const Actions = async () => {
                 >
                     <Heart className="h-5 w-5" />
                 </Link>
-                <Link
-                    href="/cart"
-                    className="relative rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 p-2"
-                >
-                    <span className="absolute -top-1 -right-1 bg-primary-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold">
-                        {/* {totalQuantity} */}0
-                    </span>
-                    <Handbag className="h-5 w-5" />
-                </Link>
+                <CartButton userId={user && user?.id} />
 
                 <div className="flex items-center gap-1 ml-2 border-l border-border pl-2">
                     {!!user ? (

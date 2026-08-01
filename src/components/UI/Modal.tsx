@@ -9,10 +9,9 @@ interface ModalExpose {
     render: (handleCloseAnimation: () => void) => React.ReactNode;
     isOpen: boolean;
     onClose: () => void;
-    onOpen: () => void;
 }
 
-const Modal: React.FC<ModalExpose> = ({ render, isOpen, onClose, onOpen }) => {
+const Modal: React.FC<ModalExpose> = ({ render, isOpen, onClose }) => {
     const { handlePortContent } = usePort("modal-root");
     useScrollLock(isOpen);
 

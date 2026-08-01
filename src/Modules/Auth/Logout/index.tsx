@@ -4,10 +4,13 @@ import { LogOut } from "lucide-react";
 import { logout } from "../actions";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import toast from "react-hot-toast";
+import { useCart } from "@/Modules/Cart/hooks/useCart";
 
 const Index = () => {
+    const { handleClearCart } = useCart();
     const handleLogout = async () => {
         try {
+            handleClearCart();
             await logout();
         } catch (error) {
             if (isRedirectError(error)) {

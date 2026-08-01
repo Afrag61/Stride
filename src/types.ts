@@ -49,3 +49,24 @@ export interface TWishlistItem {
 }
 
 export type TWishlistList = Array<TWishlistItem>;
+
+export interface TCartItem {
+    productId: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+    color: { name: string; value: string };
+    size: number;
+    discount: number;
+    discountedPrice: number;
+    totalPrice: number;
+}
+
+export type TCartItems = Array<TCartItem>;
+
+export interface TCart {
+    items: TCartItems;
+    totalQuantity: number;
+    totalPrice: number;
+}
