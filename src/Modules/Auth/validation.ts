@@ -1,4 +1,5 @@
 import z from "zod";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 export const loginSchema = z.object({
     email: z.email("Invalid email address"),
@@ -12,14 +13,10 @@ export const registerSchema = z
             .trim()
             .min(3, "Full name must be at least 3 characters")
             .max(15, "Full name must be at most 15 characters"),
-        phone: z
-            .string()
-            .trim()
-            .length(11, "Phone number must be 11 digits")
-            .regex(/^[0-9]+$/, "Phone number must contain only digits"),
+        phone: z.string().refine((value) => isValidPhoneNumber(value || "")),
         email: z.email("Invalid email address"),
         password: z.string().min(6, "Password must be at least 6 characters"),
-        confirmPassword: z.string(),
+        confirmPassword: z.string().min(1, "Please confirm your password"),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match",

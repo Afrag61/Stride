@@ -28,7 +28,13 @@ export const proxy = async (request: NextRequest) => {
 
     const {
         data: { user },
+        error,
     } = await supabase.auth.getUser();
+
+    const isNetworkError =
+        error &&
+        (error.name === "AuthRetryableFetchError" ||
+            error.status === undefined);
 
     const protectedRoutes = ["/account", "/wishlist", "/cart"];
 
@@ -36,7 +42,7 @@ export const proxy = async (request: NextRequest) => {
         request.nextUrl.pathname.startsWith(route),
     );
 
-    if (isProtectedRoute && !user) {
+    if (isProtectedRoute && !user && !isNetworkError) {
         const loginUrl = new URL("/login", request.url);
 
         loginUrl.searchParams.set("next", request.nextUrl.pathname);

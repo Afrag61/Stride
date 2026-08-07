@@ -1,10 +1,17 @@
 "use client";
 import { Link } from "@/components/UI/Link";
-import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, ArrowRight, Loader2, Eye } from "lucide-react";
 import { useLoginForm } from "../hooks/useLoginForm";
 
 const LoginPage = () => {
-    const { submitHandler, errors, isSubmitting, register } = useLoginForm();
+    const {
+        submitHandler,
+        errors,
+        isSubmitting,
+        register,
+        togglePasswordVisibility,
+        passwordIsVisible,
+    } = useLoginForm();
 
     return (
         <div className="flex min-h-[80vh] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
@@ -63,7 +70,9 @@ const LoginPage = () => {
                                 </div>
                                 <input
                                     {...register("password")}
-                                    type="password"
+                                    type={
+                                        passwordIsVisible ? "text" : "password"
+                                    }
                                     className={`block w-full pl-10 pr-3 py-3 border rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-all duration-200 outline-none ${
                                         errors.password
                                             ? "border-red-500 focus:ring-red-500/20"
@@ -71,6 +80,14 @@ const LoginPage = () => {
                                     }`}
                                     placeholder="••••••••"
                                 />
+                                <button
+                                    type="button"
+                                    className={`absolute right-1.5 top-1/2 -translate-y-1/2 ${passwordIsVisible ? "text-primary-500" : "text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"} hover:bg-gray-300/70 dark:hover:bg-gray-700/70 p-1.5 rounded-full cursor-pointer transition-all`}
+                                    onClick={togglePasswordVisibility}
+                                    title="Toggle visibility"
+                                >
+                                    <Eye className="h-5 w-5" />
+                                </button>
                             </div>
                             {errors.password && (
                                 <p className="mt-1 text-xs text-red-500">
