@@ -10,11 +10,15 @@ import { useState } from "react";
 
 export const useLoginForm = () => {
     const {
-        register,
+        control,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm<TLoginFormData>({
         resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
     });
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
@@ -46,11 +50,10 @@ export const useLoginForm = () => {
     const submitHandler = handleSubmit(onSubmit);
 
     return {
-        register,
+        control,
         submitHandler,
         togglePasswordVisibility,
         passwordIsVisible,
-        errors,
         isSubmitting,
     };
 };

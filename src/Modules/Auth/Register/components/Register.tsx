@@ -6,12 +6,10 @@ import { Controller } from "react-hook-form";
 import { Mail, Lock, ArrowRight, Loader2, User, Eye } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import Input from "@/components/UI/Input";
 
 const RegisterPage = () => {
     const {
         submitHandler,
-        errors,
         isSubmitting,
         control,
         passwordIsVisible,
@@ -243,7 +241,7 @@ const RegisterPage = () => {
                                             onChange={onChange}
                                             international
                                             className={`block w-full h-12 px-3 py-3 border rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-all duration-200  outline-none ${
-                                                errors.phone
+                                                error?.message
                                                     ? "border-red-500 focus-within:ring-red-500/20"
                                                     : "border-gray-200 dark:border-gray-700 focus-within:border dark:focus-within:border-primary-500 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900"
                                             }`}

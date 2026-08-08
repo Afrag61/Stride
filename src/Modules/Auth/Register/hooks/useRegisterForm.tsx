@@ -3,19 +3,15 @@
 import { useForm } from "react-hook-form";
 import { registerSchema, type TRegisterFormData } from "../../validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSearchParams } from "next/navigation";
-// import { register } from "../../actions";
 import toast from "react-hot-toast";
 import { useAuth } from "../../hooks/useAuth";
 import { useState } from "react";
-
-// import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export const useRegisterForm = () => {
     const {
         control,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm<TRegisterFormData>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -75,7 +71,6 @@ export const useRegisterForm = () => {
 
     return {
         control,
-        errors,
         isSubmitting,
         submitHandler,
         togglePasswordVisibility,

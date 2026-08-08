@@ -2,13 +2,13 @@
 import { Link } from "@/components/UI/Link";
 import { Mail, Lock, ArrowRight, Loader2, Eye } from "lucide-react";
 import { useLoginForm } from "../hooks/useLoginForm";
+import { Controller } from "react-hook-form";
 
 const LoginPage = () => {
     const {
+        control,
         submitHandler,
-        errors,
         isSubmitting,
-        register,
         togglePasswordVisibility,
         passwordIsVisible,
     } = useLoginForm();
@@ -28,73 +28,94 @@ const LoginPage = () => {
                 <form className="mt-8 space-y-6" onSubmit={submitHandler}>
                     <div className="space-y-4">
                         {/* Email Field */}
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                            >
-                                Email Address
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400" />
+                        <Controller
+                            control={control}
+                            name="email"
+                            render={({
+                                field: { onChange, value },
+                                fieldState: { error },
+                            }) => (
+                                <div>
+                                    <label
+                                        htmlFor="email"
+                                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                    >
+                                        Email Address
+                                    </label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <Mail className="h-5 w-5 text-gray-400" />
+                                        </div>
+                                        <input
+                                            value={value}
+                                            onChange={onChange}
+                                            type="email"
+                                            autoComplete="email"
+                                            className={`block w-full pl-10 pr-3 py-3 border rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-all duration-200 outline-none ${
+                                                error?.message
+                                                    ? "border-red-500 focus:ring-red-500/20"
+                                                    : "border-gray-200 dark:border-gray-700 focus:border dark:focus:border-primary-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                                            }`}
+                                            placeholder="name@example.com"
+                                        />
+                                    </div>
+                                    {error?.message && (
+                                        <p className="mt-1 text-xs text-red-500">
+                                            {error.message}
+                                        </p>
+                                    )}
                                 </div>
-                                <input
-                                    {...register("email")}
-                                    id="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    className={`block w-full pl-10 pr-3 py-3 border rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-all duration-200 outline-none ${
-                                        errors.email
-                                            ? "border-red-500 focus:ring-red-500/20"
-                                            : "border-gray-200 dark:border-gray-700 focus:border dark:focus:border-primary-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-                                    }`}
-                                    placeholder="name@example.com"
-                                />
-                            </div>
-                            {errors.email && (
-                                <p className="mt-1 text-xs text-red-500">
-                                    {errors.email.message}
-                                </p>
                             )}
-                        </div>
+                        />
 
                         {/* Password Field */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Password
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
+                        <Controller
+                            control={control}
+                            name="password"
+                            render={({
+                                field: { onChange, value },
+                                fieldState: { error },
+                            }) => (
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Password
+                                    </label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <Lock className="h-5 w-5 text-gray-400" />
+                                        </div>
+                                        <input
+                                            value={value}
+                                            onChange={onChange}
+                                            type={
+                                                passwordIsVisible
+                                                    ? "text"
+                                                    : "password"
+                                            }
+                                            className={`block w-full pl-10 pr-3 py-3 border rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-all duration-200 outline-none ${
+                                                error?.message
+                                                    ? "border-red-500 focus:ring-red-500/20"
+                                                    : "border-gray-200 dark:border-gray-700 focus:border dark:focus:border-primary-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                                            }`}
+                                            placeholder="••••••••"
+                                        />
+                                        <button
+                                            type="button"
+                                            className={`absolute right-1.5 top-1/2 -translate-y-1/2 ${passwordIsVisible ? "text-primary-500" : "text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"} hover:bg-gray-300/70 dark:hover:bg-gray-700/70 p-1.5 rounded-full cursor-pointer transition-all`}
+                                            onClick={togglePasswordVisibility}
+                                            title="Toggle visibility"
+                                        >
+                                            <Eye className="h-5 w-5" />
+                                        </button>
+                                    </div>
+                                    {error?.message && (
+                                        <p className="mt-1 text-xs text-red-500">
+                                            {error.message}
+                                        </p>
+                                    )}
                                 </div>
-                                <input
-                                    {...register("password")}
-                                    type={
-                                        passwordIsVisible ? "text" : "password"
-                                    }
-                                    className={`block w-full pl-10 pr-3 py-3 border rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-all duration-200 outline-none ${
-                                        errors.password
-                                            ? "border-red-500 focus:ring-red-500/20"
-                                            : "border-gray-200 dark:border-gray-700 focus:border dark:focus:border-primary-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-                                    }`}
-                                    placeholder="••••••••"
-                                />
-                                <button
-                                    type="button"
-                                    className={`absolute right-1.5 top-1/2 -translate-y-1/2 ${passwordIsVisible ? "text-primary-500" : "text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"} hover:bg-gray-300/70 dark:hover:bg-gray-700/70 p-1.5 rounded-full cursor-pointer transition-all`}
-                                    onClick={togglePasswordVisibility}
-                                    title="Toggle visibility"
-                                >
-                                    <Eye className="h-5 w-5" />
-                                </button>
-                            </div>
-                            {errors.password && (
-                                <p className="mt-1 text-xs text-red-500">
-                                    {errors.password.message}
-                                </p>
                             )}
-                        </div>
+                        />
                     </div>
 
                     <div className="flex items-center justify-between">

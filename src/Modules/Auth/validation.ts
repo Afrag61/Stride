@@ -13,7 +13,9 @@ export const registerSchema = z
             .trim()
             .min(3, "Full name must be at least 3 characters")
             .max(15, "Full name must be at most 15 characters"),
-        phone: z.string().refine((value) => isValidPhoneNumber(value || "")),
+        phone: z.string().refine((value) => isValidPhoneNumber(value || ""), {
+            error: "Invalid phone number",
+        }),
         email: z.email("Invalid email address"),
         password: z.string().min(6, "Password must be at least 6 characters"),
         confirmPassword: z.string().min(1, "Please confirm your password"),
