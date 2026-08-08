@@ -1,4 +1,5 @@
 import CartList from "./CartList";
+import Checkout from "./Checkout";
 
 const CartContent = () => {
     return (
@@ -8,7 +9,7 @@ const CartContent = () => {
                     {/* Cart Items */}
                     <CartList />
                     {/* Order Summary */}
-                    {/* <Checkout /> */}
+                    <Checkout />
                 </div>
             </div>
         </section>

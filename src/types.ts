@@ -70,3 +70,35 @@ export interface TCart {
     totalQuantity: number;
     totalPrice: number;
 }
+
+export interface TOrderRequest {
+    items: TOrder["items"];
+    total_amount: TCart["totalPrice"];
+    tax: number;
+    shipping: string;
+    status: string;
+    shipping_address: TOrder["shipping_address"];
+}
+
+export interface TOrderAddress {
+    full_name: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    state: string;
+    zip_code: string;
+    country: string;
+}
+
+export interface TOrder {
+    id: number;
+    user_id: string;
+    items: TCartItems;
+    total_amount: number;
+    tax: number;
+    shipping: string;
+    status: string;
+    shipping_address: TOrderAddress;
+    created_at: string;
+}

@@ -9,9 +9,15 @@ interface ModalExpose {
     render: (handleCloseAnimation: () => void) => React.ReactNode;
     isOpen: boolean;
     onClose: () => void;
+    preventClose?: boolean;
 }
 
-const Modal: React.FC<ModalExpose> = ({ render, isOpen, onClose }) => {
+const Modal: React.FC<ModalExpose> = ({
+    render,
+    isOpen,
+    onClose,
+    preventClose,
+}) => {
     const { handlePortContent } = usePort("modal-root");
     useScrollLock(isOpen);
 
@@ -33,6 +39,7 @@ const Modal: React.FC<ModalExpose> = ({ render, isOpen, onClose }) => {
     };
 
     useEffect(() => {
+        if (!isOpen || preventClose) return;
         const handleSearch = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
                 handleAnimateOut();
@@ -44,7 +51,7 @@ const Modal: React.FC<ModalExpose> = ({ render, isOpen, onClose }) => {
         return () => {
             document.removeEventListener("keydown", handleSearch);
         };
-    }, []);
+    }, [isOpen, preventClose]);
 
     useGSAP(
         () => {
@@ -69,6 +76,7 @@ const Modal: React.FC<ModalExpose> = ({ render, isOpen, onClose }) => {
             <div
                 onClick={(e) => {
                     e.stopPropagation();
+                    if (preventClose) return;
                     handleAnimateOut();
                 }}
                 className="modal-backdrop fixed top-0 right-0 z-100 w-full h-full bg-black/40 backdrop-blur-sm flex items-center justify-center"
