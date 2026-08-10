@@ -9,12 +9,9 @@ import { useCart } from "@/Modules/Cart/hooks/useCart";
 import { useOptimistic, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "@/Modules/Auth/hooks/useAuth";
 
-interface Props extends TProduct {
-    isAuthenticated: boolean;
-}
-
-const ProductItem: React.FC<Props> = ({
+const ProductItem: React.FC<TProduct> = ({
     id,
     images,
     availableSizes,
@@ -27,9 +24,9 @@ const ProductItem: React.FC<Props> = ({
     tag,
     price_after_discount,
     isFavorite,
-    isAuthenticated,
 }) => {
     const { handleAddToCart } = useCart();
+    const { isAuthenticated } = useAuth();
 
     const router = useRouter();
     const pathname = usePathname();
@@ -56,6 +53,8 @@ const ProductItem: React.FC<Props> = ({
             if (!wasLiked) {
                 setIsLiked(true);
                 const error = await addToWishlist(id);
+
+                console.log(error);
 
                 if (error) {
                     setIsLiked(wasLiked);

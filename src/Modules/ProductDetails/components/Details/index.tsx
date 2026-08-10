@@ -3,15 +3,12 @@ import { TProduct } from "@/types";
 import ProductDetails from "./ProductDetails";
 import { notFound } from "next/navigation";
 import ClientThrower from "@/Modules/Error/ClientThrower";
-import { getUser } from "@/Modules/Auth/lib/getUser";
 
 interface Props {
-    productId: string;
+    productId: number;
 }
 
 const Index: React.FC<Props> = async ({ productId }) => {
-    const user = await getUser();
-
     const supabase = await createClient();
 
     const { data, error } = await supabase
@@ -26,7 +23,7 @@ const Index: React.FC<Props> = async ({ productId }) => {
 
     if (error) return <ClientThrower cause="LOAD_PRODUCT_FAILED" />;
 
-    return <ProductDetails product={product} isAuthenticated={!!user} />;
+    return <ProductDetails product={product} />;
 };
 
 export default Index;

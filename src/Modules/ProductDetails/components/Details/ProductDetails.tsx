@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useOptimistic, useState, useTransition } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import { Link } from "@/components/UI/Link";
 import BreadCrumb from "@/components/UI/BreadCrumb";
 
@@ -12,20 +12,19 @@ import { TProduct } from "@/types";
 import { CarFront, RefreshCcw, StarIcon } from "lucide-react";
 import { addToWishlist, removeFromWishlist } from "@/Modules/Wishlist/actions";
 import toast from "react-hot-toast";
-import { supabase } from "@/lib/supabase/client";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/Modules/Cart/hooks/useCart";
+import { useAuth } from "@/Modules/Auth/hooks/useAuth";
 
 interface Props {
     product: TProduct;
-    isAuthenticated: boolean;
 }
 
-const ProductDetails: React.FC<Props> = ({ product, isAuthenticated }) => {
+const ProductDetails: React.FC<Props> = ({ product }) => {
+    const { isAuthenticated } = useAuth();
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
     const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
-    // const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [optimisticIsLiked, toggleOptimisticLike] = useOptimistic(
         isLiked,
         (state) => !state,
@@ -34,17 +33,6 @@ const ProductDetails: React.FC<Props> = ({ product, isAuthenticated }) => {
 
     const router = useRouter();
     const pathname = usePathname();
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const {
-    //             data: { user },
-    //             error,
-    //         } = await supabase.auth.getUser();
-
-    //         setIsAuthenticated(!!user);
-    //     })();
-    // }, []);
 
     const { handleAddToCart } = useCart();
 

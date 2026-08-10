@@ -5,7 +5,7 @@ import ErrorMessage from "@/components/UI/ErrorMessage";
 import { createClient } from "@/lib/supabase/server";
 
 interface Props {
-    productId: string;
+    productId: number;
 }
 
 const Suggestions: React.FC<Props> = async ({ productId }) => {
