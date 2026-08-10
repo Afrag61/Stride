@@ -7,7 +7,7 @@ import { getUser } from "@/Modules/Auth/lib/getUser";
 export const addToWishlist = async (productId: number) => {
     const user = await getUser();
 
-    if (!user) return { message: "Unauthorized" };
+    if (!user) return { code: "UNAUTHORIZED", message: "Unauthorized" };
 
     const supabase = await createClient();
 
@@ -17,15 +17,17 @@ export const addToWishlist = async (productId: number) => {
         .select()
         .single();
 
-    if (error) return error;
+    if (error) return { code: error.code, message: error.message };
 
     revalidatePath("/wishlist");
+
+    return null;
 };
 
 export const removeFromWishlist = async (productId: number) => {
     const user = await getUser();
 
-    if (!user) return { message: "Unauthorized" };
+    if (!user) return { code: "UNAUTHORIZED", message: "Unauthorized" };
 
     const supabase = await createClient();
 
@@ -35,7 +37,7 @@ export const removeFromWishlist = async (productId: number) => {
         .eq("user_id", user.id)
         .eq("product_id", productId);
 
-    if (error) return error;
+    if (error) return { code: error.code, message: error.message };
 
     revalidatePath("/wishlist");
 
@@ -45,7 +47,7 @@ export const removeFromWishlist = async (productId: number) => {
 export const clearWishlist = async () => {
     const user = await getUser();
 
-    if (!user) return { message: "Unauthorized" };
+    if (!user) return { code: "UNAUTHORIZED", message: "Unauthorized" };
 
     const supabase = await createClient();
 
@@ -54,7 +56,7 @@ export const clearWishlist = async () => {
         .delete()
         .eq("user_id", user.id);
 
-    if (error) return error;
+    if (error) return { code: error.code, message: error.message };
 
     revalidatePath("/wishlist");
 
