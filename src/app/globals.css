@@ -114,6 +114,7 @@
     --color-primary-900: #7c2d12;
     --color-primary-950: #431407;
     --font-display: var(--font-outfit), system-ui, sans-serif;
+    --animate-border-spin: border-spin 2s linear infinite;
 }
 
 @theme inline {
@@ -233,4 +234,46 @@
     }
 
     --animate-float: float 5s ease-in-out infinite;
+}
+
+@property --angel {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes border-spin {
+    to {
+        --angel: 360deg;
+    }
+}
+
+.animated-border {
+    isolation: isolate;
+    border-radius: 16px;
+}
+
+.animated-border::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+        from var(--angel),
+        var(--color-primary-200),
+        var(--color-primary-500),
+        var(--color-primary-800),
+        var(--color-primary-200)
+    );
+    animation: var(--animate-border-spin);
+    z-index: -2;
+}
+
+.animated-border::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    z-index: -1;
 }
