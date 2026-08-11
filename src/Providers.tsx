@@ -1,6 +1,7 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
 import ThemeContextProvider from "@/Modules/Theme/components/theme-provider";
 import { Toaster } from "react-hot-toast";
@@ -9,7 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "@/Redux";
 import AuthProvider from "./Modules/Auth/Context/AuthProvider";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollToPlugin);
 
 interface ProvidersProps {
     children: React.ReactNode;

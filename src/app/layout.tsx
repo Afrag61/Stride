@@ -7,6 +7,7 @@ import { ProgressBar } from "@/components/UI/ProgressBar";
 import Header from "@/Modules/Header";
 import Footer from "@/Modules/Footer";
 import { Suspense } from "react";
+import ScrollIndicator from "@/components/UI/ScrollIndicator";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -69,6 +70,7 @@ export default function RootLayout({
                     <Header />
                     <main>{children}</main>
                     <Footer />
+                    <ScrollIndicator />
                 </Providers>
             </body>
         </html>
