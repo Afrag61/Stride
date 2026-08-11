@@ -103,8 +103,6 @@ const ProductItem: React.FC<TProduct> = ({
             productId: id,
             totalPrice: price,
         });
-
-        toast.success("Added to Cart");
     };
 
     return (

@@ -21,7 +21,7 @@ const Checkout = () => {
     return (
         <div className="lg:col-span-1">
             <div
-                className={`sticky top-24 rounded-2xl bg-gray-50 p-6 dark:bg-gray-900 ${canCheckout && "animated-border"}`}
+                className={`sticky top-32 rounded-2xl bg-gray-50 p-6 dark:bg-gray-900 ${canCheckout && "animated-border"}`}
             >
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Order Summary

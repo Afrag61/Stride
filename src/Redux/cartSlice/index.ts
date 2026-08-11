@@ -43,11 +43,13 @@ const cartSlice = createSlice({
             if (existingItem) {
                 existingItem.quantity = existingItem.quantity + 1;
                 existingItem.totalPrice = existingItem.quantity * itemPrice;
+                toast.success("quantity updated");
             } else {
                 state.items.push({
                     ...newItem,
                     totalPrice: newItem.quantity * itemPrice,
                 });
+                toast.success("Added to Cart");
             }
 
             calculateTotals(state);
@@ -77,6 +79,7 @@ const cartSlice = createSlice({
                     const itemPrice =
                         item.discount > 0 ? item.discountedPrice : item.price;
                     item.totalPrice = item.quantity * itemPrice;
+                    toast.success("quantity updated");
                 }
 
                 calculateTotals(state);
