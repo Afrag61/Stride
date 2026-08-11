@@ -142,6 +142,7 @@
         outline-color: var(--color-primary-500);
         scroll-behavior: smooth;
         accent-color: var(--color-primary-500);
+        scrollbar-gutter: stable;
     }
 
     .dark {
@@ -160,6 +161,7 @@
         outline-color: var(--color-primary-500);
         scroll-behavior: smooth;
         accent-color: var(--color-primary-600);
+        scrollbar-gutter: stable;
     }
 }
 
