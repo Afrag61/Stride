@@ -28,6 +28,8 @@ const ProductColors: React.FC<Props> = ({
                         style={{
                             backgroundColor: color.value,
                         }}
+                        aria-label={color.name}
+                        aria-pressed={selectedColorIndex === index}
                     ></button>
                 ))}
             </div>

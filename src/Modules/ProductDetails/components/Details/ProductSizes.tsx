@@ -32,6 +32,7 @@ const ProductSizes = ({
                                 ? "border-primary-500 dark:border-primary-500 bg-primary-500/10 text-primary-700 dark:text-primary-400"
                                 : "border-gray-300 dark:border-gray-600 text-gray-700 hover:border-gray-400  dark:text-gray-300 dark:hover:border-gray-400"
                         } `}
+                        aria-pressed={selectedSizeIndex === index}
                     >
                         {size}
                     </button>
