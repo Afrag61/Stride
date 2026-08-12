@@ -117,8 +117,6 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
             discountedPrice: product.price_after_discount,
             totalPrice: product.price,
         });
-
-        toast.success("Added to Cart");
     };
 
     return (
