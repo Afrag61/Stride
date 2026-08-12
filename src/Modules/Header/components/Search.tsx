@@ -13,6 +13,8 @@ const SearchModal = () => {
     return (
         <>
             <button
+                title="Search"
+                aria-label="Search"
                 onClick={handleOpenSearch}
                 className="rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 p-2 cursor-pointer"
             >
@@ -22,7 +24,6 @@ const SearchModal = () => {
             <Modal
                 isOpen={showSearchModal}
                 onClose={handleCloseSearch}
-                onOpen={handleOpenSearch}
                 render={(_handleCloseAnimation) => (
                     <div
                         onClick={(e) => e.stopPropagation()}

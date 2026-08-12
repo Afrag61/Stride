@@ -2,22 +2,23 @@
 
 import { Link } from "@/components/UI/Link";
 import useMobileNavigation from "../hooks/useMobileNavigation";
+import { navLinks } from "../NavLinks";
 import { Menu, X } from "lucide-react";
 
 import Modal from "@/components/UI/Modal";
 import Logo from "@/components/UI/Logo";
-
-const links = [
-    { href: "/products", label: "Shop" },
-    { href: "/categories", label: "Categories" },
-    { href: "/products?filter=new", label: "New Arrivals" },
-    { href: "/products?filter=sale", label: "Sale" },
-    { href: "/about", label: "About" },
-];
+import { useRouter } from "next/navigation";
 
 const MobileNavigationDrawer: React.FC = () => {
     const { isNavOpen, handleOpenNav, handleCloseNav, isActiveLink } =
         useMobileNavigation();
+    const router = useRouter();
+
+    const onLinkClick = (href: string, onClose: () => void) => {
+        if (isActiveLink(href)) return;
+        router.push(href);
+        onClose();
+    };
 
     return (
         <>
@@ -33,7 +34,6 @@ const MobileNavigationDrawer: React.FC = () => {
             <Modal
                 isOpen={isNavOpen}
                 onClose={handleCloseNav}
-                onOpen={handleOpenNav}
                 render={(closeWithAnimation) => (
                     <div
                         onClick={(e) => e.stopPropagation()}
@@ -49,52 +49,70 @@ const MobileNavigationDrawer: React.FC = () => {
                                     <X className="h-6 w-6" />
                                 </button>
                             </div>
-                            {links.map((link) => {
-                                const isActive = isActiveLink(link.href);
-
-                                if (link.href.includes("?")) {
-                                    return (
-                                        <Link
-                                            onClick={closeWithAnimation}
-                                            key={link.href}
-                                            className="block rounded-lg px-4 py-3 text-base font-medium transition-colors text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900"
-                                            href={link.href}
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    );
-                                }
+                            {navLinks.map((link) => {
+                                const isActive =
+                                    link.highlightActive &&
+                                    isActiveLink(link.href);
 
                                 return (
-                                    <Link
-                                        onClick={closeWithAnimation}
+                                    <button
+                                        title={link.label}
+                                        aria-label={link.label}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            onLinkClick(
+                                                link.href,
+                                                closeWithAnimation,
+                                            );
+                                        }}
                                         key={link.href}
                                         className={
                                             isActive
-                                                ? "text-primary-600 bg-primary-50 dark:bg-primary-900/20  block rounded-lg px-4 py-3 text-base font-medium"
-                                                : "block rounded-lg px-4 py-3 text-base font-medium transition-colors text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900"
+                                                ? "text-left text-primary-600 bg-primary-50 dark:bg-primary-900/20  block rounded-lg px-4 py-3 text-base font-medium cursor-default"
+                                                : "text-left block rounded-lg px-4 py-3 text-base font-medium transition-colors text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900 cursor-pointer"
                                         }
-                                        href={link.href}
                                     >
                                         {link.label}
-                                    </Link>
+                                    </button>
                                 );
                             })}
                             <div className="mt-4 border-t border-border flex flex-col pt-4">
-                                <Link
-                                    onClick={closeWithAnimation}
-                                    href="/wishlist"
-                                    className="rounded-lg px-4 py-3 text-base text-foreground hover:bg-gray-100 dark:hover:bg-gray-900 font-medium"
+                                <button
+                                    title="Wishlist"
+                                    aria-label="Wishlist"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        onLinkClick(
+                                            "/wishlist",
+                                            closeWithAnimation,
+                                        );
+                                    }}
+                                    className={
+                                        isActiveLink("/wishlist")
+                                            ? "text-left text-primary-600 bg-primary-50 dark:bg-primary-900/20  block rounded-lg px-4 py-3 text-base font-medium cursor-default"
+                                            : "text-left block rounded-lg px-4 py-3 text-base font-medium transition-colors text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900 cursor-pointer"
+                                    }
                                 >
                                     Wishlist
-                                </Link>
-                                <Link
-                                    onClick={closeWithAnimation}
-                                    href="/account"
-                                    className="rounded-lg px-4 py-3 text-base text-foreground hover:bg-gray-100 dark:hover:bg-gray-900 font-medium"
+                                </button>
+                                <button
+                                    title="My Account"
+                                    aria-label="My Account"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        onLinkClick(
+                                            "/account",
+                                            closeWithAnimation,
+                                        );
+                                    }}
+                                    className={
+                                        isActiveLink("/account")
+                                            ? "text-left text-primary-600 bg-primary-50 dark:bg-primary-900/20  block rounded-lg px-4 py-3 text-base font-medium cursor-default"
+                                            : "text-left block rounded-lg px-4 py-3 text-base font-medium transition-colors text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900 cursor-pointer"
+                                    }
                                 >
                                     My Account
-                                </Link>
+                                </button>
                             </div>
                         </nav>
                     </div>

@@ -1,13 +1,15 @@
+"use client";
+
 import { Link } from "@/components/UI/Link";
-import { Heart, Handbag, User, LogOut } from "lucide-react";
-import { getUser } from "@/Modules/Auth/lib/getUser";
+import { Heart, User } from "lucide-react";
 import ThemeToggle from "@/Modules/Theme/components/theme-toggle";
 import Search from "./Search";
 import Logout from "@/Modules/Auth/Logout";
 import CartButton from "./CartButton";
+import { useAuth } from "@/Modules/Auth/hooks/useAuth";
 
-const Actions = async () => {
-    const user = await getUser();
+const Actions = () => {
+    const { isAuthenticated } = useAuth();
 
     return (
         <>
@@ -19,15 +21,17 @@ const Actions = async () => {
                 <ThemeToggle />
 
                 <Link
+                    title="Wishlist"
+                    aria-label="Wishlist"
                     href="/wishlist"
                     className="hidden md:block rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 p-2"
                 >
                     <Heart className="h-5 w-5" />
                 </Link>
-                <CartButton userId={user && user?.id} />
+                <CartButton />
 
                 <div className="flex items-center gap-1 ml-2 border-l border-border pl-2">
-                    {!!user ? (
+                    {isAuthenticated ? (
                         <>
                             <Link
                                 href="/account"

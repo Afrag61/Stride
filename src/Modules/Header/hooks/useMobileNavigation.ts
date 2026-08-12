@@ -8,7 +8,7 @@ const useMobileNavigation = () => {
     useScrollLock(isNavOpen);
 
     const isActiveLink = (href: string) => {
-        return pathname.includes(href);
+        return pathname === href || pathname.startsWith(`${href}/`);
     };
 
     const handleOpenNav = () => setIsNavOpen(true);
