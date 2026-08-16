@@ -4,5 +4,6 @@ export enum ErrorMessages {
     "LOAD_CATEGORIES_PRODUCTS_FAILED" = "Failed to Load categories of products",
     "LOAD_PRODUCT_FAILED" = "Failed to Load Product",
     "LOAD_WISHLIST_FAILED" = "Failed to Load Your Wishlist",
-    "TEST_ERROR" = "Test Error Throw",
+    "LOAD_PROFILE_FAILED" = "Failed to Load Your Profile",
+    "NETWORK_CONNECTION_FAILED" = "Network Connection Failed",
 }

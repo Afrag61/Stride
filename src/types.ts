@@ -98,7 +98,9 @@ export interface TOrder {
     total_amount: number;
     tax: number;
     shipping: string;
-    status: string;
+    status: "Processing" | "Shipped" | "Delivered";
     shipping_address: TOrderAddress;
     created_at: string;
 }
+
+export type TOrderList = Array<TOrder>;
