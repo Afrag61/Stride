@@ -1,5 +1,1 @@
-const Page = () => {
-    return <div>Wishlist</div>;
-};
-
-export default Page;
+export { default } from "@/Modules/Account/Wishlist";
