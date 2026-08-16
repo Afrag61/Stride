@@ -98,7 +98,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
                     duration: 10000,
                 });
                 onClose();
-                router.push("/account?tab=orders");
+                router.push("/account");
             }
         } catch (err) {
             console.log(err);
