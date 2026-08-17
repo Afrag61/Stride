@@ -1,7 +1,7 @@
 "use client";
 
 import { Heart, Settings, ShoppingBag } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/components/UI/Link";
 import { usePathname } from "next/navigation";
 
 interface Props {
@@ -83,7 +83,7 @@ const Navigation: React.FC<Props> = ({ OrdersCount, WishlistCount }) => {
                 <Link
                     href="/account"
                     className={`flex items-center gap-2 border-b-2 px-4 py-2.5 text-sm font-semibold whitespace-nowrap cursor-pointer transition-all ${
-                        activeTab === "orders"
+                        activeTab === "account"
                             ? "border-primary-600 text-primary-600 dark:text-primary-500"
                             : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
                     }`}

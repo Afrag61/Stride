@@ -1,3 +1,5 @@
+import { getUser } from "../Auth/lib/getUser";
+import ClientThrower from "../Error/ClientThrower";
 import Navigation from "./components/Navigation";
 import Profile from "./components/Profile";
 import { createClient } from "@/lib/supabase/server";
@@ -9,18 +11,23 @@ interface Props {
 const AccountLayout: React.FC<Readonly<Props>> = async ({ children }) => {
     const supabase = await createClient();
 
-    const { data: user } = await supabase.auth.getUser();
+    const user = await getUser();
+
+    if (user === false) return <ClientThrower cause="LOAD_WISHLIST_FAILED" />;
+
+    if (user === null)
+        return <ClientThrower cause="NETWORK_CONNECTION_FAILED" />;
 
     const { data: ordersCount } = await supabase
         .from("orders")
         .select("count")
-        .eq("user_id", user?.user?.id)
+        .eq("user_id", user.id)
         .single();
 
     const { data: wishlistCount } = await supabase
         .from("wishlist")
         .select("count")
-        .eq("user_id", user?.user?.id)
+        .eq("user_id", user.id)
         .single();
 
     return (
