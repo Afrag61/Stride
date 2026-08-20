@@ -1,5 +1,1 @@
-const Page = () => {
-    return <div>Settings</div>;
-};
-
-export default Page;
+export { default, metadata } from "@/Modules/Account/Settings";
