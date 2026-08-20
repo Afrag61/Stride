@@ -5,11 +5,11 @@ import { Link } from "@/components/UI/Link";
 import { usePathname } from "next/navigation";
 
 interface Props {
-    OrdersCount: number;
-    WishlistCount: number;
+    ordersCount: number | null;
+    wishlistCount: number | null;
 }
 
-const Navigation: React.FC<Props> = ({ OrdersCount, WishlistCount }) => {
+const Navigation: React.FC<Props> = ({ ordersCount, wishlistCount }) => {
     const pathname = usePathname();
 
     const activeTab = pathname.split("/").pop();
@@ -31,15 +31,17 @@ const Navigation: React.FC<Props> = ({ OrdersCount, WishlistCount }) => {
                             <ShoppingBag className="h-4 w-4" />
                             Order History
                         </span>
-                        <span
-                            className={`rounded-full px-2 py-0.5 text-xs ${
-                                activeTab === "account"
-                                    ? "bg-white/20 text-white"
-                                    : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"
-                            }`}
-                        >
-                            {OrdersCount}
-                        </span>
+                        {ordersCount && (
+                            <span
+                                className={`rounded-full px-2 py-0.5 text-xs ${
+                                    activeTab === "account"
+                                        ? "bg-white/20 text-white"
+                                        : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"
+                                }`}
+                            >
+                                {ordersCount}
+                            </span>
+                        )}
                     </Link>
 
                     <Link
@@ -54,15 +56,17 @@ const Navigation: React.FC<Props> = ({ OrdersCount, WishlistCount }) => {
                             <Heart className="h-4 w-4" />
                             My Wishlist
                         </span>
-                        <span
-                            className={`rounded-full px-2 py-0.5 text-xs ${
-                                activeTab === "wishlist"
-                                    ? "bg-white/20 text-white"
-                                    : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"
-                            }`}
-                        >
-                            {WishlistCount}
-                        </span>
+                        {wishlistCount && (
+                            <span
+                                className={`rounded-full px-2 py-0.5 text-xs ${
+                                    activeTab === "wishlist"
+                                        ? "bg-white/20 text-white"
+                                        : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"
+                                }`}
+                            >
+                                {wishlistCount}
+                            </span>
+                        )}
                     </Link>
 
                     <Link
@@ -89,7 +93,7 @@ const Navigation: React.FC<Props> = ({ OrdersCount, WishlistCount }) => {
                     }`}
                 >
                     <ShoppingBag className="h-4 w-4" />
-                    Orders ({OrdersCount})
+                    Orders ({ordersCount || 0})
                 </Link>
                 <Link
                     href="/account/wishlist"
@@ -100,7 +104,7 @@ const Navigation: React.FC<Props> = ({ OrdersCount, WishlistCount }) => {
                     }`}
                 >
                     <Heart className="h-4 w-4" />
-                    Wishlist ({WishlistCount})
+                    Wishlist ({wishlistCount || 0})
                 </Link>
                 <Link
                     href="/account/settings"
