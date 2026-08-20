@@ -87,7 +87,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
             });
 
             if (error) {
-                console.log(error);
                 toast.error(error);
                 return;
             }
@@ -101,7 +100,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
                 router.push("/account");
             }
         } catch (err) {
-            console.log(err);
             toast.error("Something went wrong. Please try again.");
         }
     };

@@ -54,8 +54,6 @@ const ProductItem: React.FC<TProduct> = ({
                 setIsLiked(true);
                 const error = await addToWishlist(id);
 
-                console.log(error);
-
                 if (error) {
                     setIsLiked(wasLiked);
                     if (error.code === "23505") {
