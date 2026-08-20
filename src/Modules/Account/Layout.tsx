@@ -18,26 +18,29 @@ const AccountLayout: React.FC<Readonly<Props>> = async ({ children }) => {
     if (user === null)
         return <ClientThrower cause="NETWORK_CONNECTION_FAILED" />;
 
-    const { data: ordersCount } = await supabase
+    const { count: ordersCount } = await supabase
         .from("orders")
-        .select("count")
-        .eq("user_id", user.id)
-        .single();
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
 
-    const { data: wishlistCount } = await supabase
+    const { count: wishlistCount } = await supabase
         .from("wishlist")
-        .select("count")
-        .eq("user_id", user.id)
-        .single();
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+    console.table({ ordersCount, wishlistCount });
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8 sm:py-16">
             <div className="grid gap-8 lg:grid-cols-4 lg:gap-12">
                 <div className="lg:col-span-1 space-y-6">
-                    <Profile />
+                    <Profile
+                        name={user.user_metadata.name}
+                        email={user.email!}
+                    />
                     <Navigation
-                        OrdersCount={ordersCount ? ordersCount.count : 0}
-                        WishlistCount={wishlistCount ? wishlistCount.count : 0}
+                        ordersCount={ordersCount}
+                        wishlistCount={wishlistCount}
                     />
                 </div>
                 <div className="lg:col-span-3 space-y-6">

@@ -17,21 +17,24 @@ const getInitials = (name?: string, email?: string) => {
     return "U";
 };
 
-const Profile = () => {
-    const { logout, user, isAuthenticated } = useAuth();
+interface Props {
+    name: string;
+    email: string;
+}
 
-    if (!user || !isAuthenticated) return null;
+const Profile: React.FC<Props> = ({ name, email }) => {
+    const { logout } = useAuth();
 
     return (
         <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900 dark:border-gray-850 text-center">
             <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-tr from-primary-600 to-primary-400 text-white text-3xl font-bold tracking-wider shadow-lg">
-                {getInitials("Ahmed Frag", "a.frag166@test.com")}
+                {getInitials(name, email)}
             </div>
             <h2 className="mt-4 text-xl font-bold text-gray-900 dark:text-white">
-                {user.user_metadata.name || "Valued Customer"}
+                {name || "Valued Customer"}
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 truncate">
-                {user.email}
+                {email || ""}
             </p>
 
             <button
