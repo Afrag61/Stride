@@ -39,8 +39,8 @@ const ProfileSettings: React.FC<Props> = ({ email, fullName, phone }) => {
                         {fullName}
                     </p>
                     <p className="text-xs text-yellow-600 dark:text-yellow-600 mt-1.5 flex items-center justify-start gap-1">
-                        <Info className="w-3.5 h-3.5 inline" /> You will be able
-                        to change this as soon
+                        <Info className="w-3.5 h-3.5 inline" /> You'll be able
+                        to edit this soon
                     </p>
                 </div>
                 <div className="space-y-1">
@@ -64,8 +64,8 @@ const ProfileSettings: React.FC<Props> = ({ email, fullName, phone }) => {
                         }}
                     />
                     <p className="text-xs text-yellow-600 dark:text-yellow-600 mt-1.5 flex items-center justify-start gap-1">
-                        <Info className="w-3.5 h-3.5 inline" /> You will be able
-                        to change this as soon
+                        <Info className="w-3.5 h-3.5 inline" /> You'll be able
+                        to edit this soon
                     </p>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import {
     MapPin,
     Package,
 } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 interface Props {
@@ -105,7 +106,9 @@ const OrderItem: React.FC<Props> = ({ order }) => {
                                     className="flex items-center justify-between py-4 first:pt-0 last:pb-0 gap-4"
                                 >
                                     <div className="flex items-center gap-4">
-                                        <img
+                                        <Image
+                                            width={70}
+                                            height={70}
                                             src={item.image}
                                             alt={item.name}
                                             className="h-14 w-14 rounded-lg object-cover bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-800"
