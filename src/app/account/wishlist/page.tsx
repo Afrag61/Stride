@@ -1,1 +1,1 @@
-export { default } from "@/Modules/Account/Wishlist";
+export { default, metadata } from "@/Modules/Account/Wishlist";

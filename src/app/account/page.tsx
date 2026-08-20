@@ -1,1 +1,1 @@
-export { default } from "@/Modules/Account";
+export { default, metadata } from "@/Modules/Account";
