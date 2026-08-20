@@ -28,8 +28,6 @@ const AccountLayout: React.FC<Readonly<Props>> = async ({ children }) => {
         .select("*", { count: "exact", head: true })
         .eq("user_id", user.id);
 
-    console.table({ ordersCount, wishlistCount });
-
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8 sm:py-16">
             <div className="grid gap-8 lg:grid-cols-4 lg:gap-12">

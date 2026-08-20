@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 const Orders = async () => {
     const user = await getUser();
 
-    if (user === false) return <ClientThrower cause="LOAD_WISHLIST_FAILED" />;
+    if (user === false) return <ClientThrower cause="LOAD_ORDERS_FAILED" />;
 
     if (user === null)
         return <ClientThrower cause="NETWORK_CONNECTION_FAILED" />;
@@ -22,7 +22,7 @@ const Orders = async () => {
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
-    if (error) return <ClientThrower cause="LOAD_WISHLIST_FAILED" />;
+    if (error) return <ClientThrower cause="LOAD_ORDERS_FAILED" />;
 
     const orders = data as TOrderList;
 
