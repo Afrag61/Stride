@@ -28,6 +28,7 @@ const SideBar: React.FC<Props> = ({ categories }) => {
         } else {
             params.set("category", currentCategory);
         }
+        params.delete("page");
 
         return `${pathname}?${params.toString()}`;
     };
@@ -39,12 +40,14 @@ const SideBar: React.FC<Props> = ({ categories }) => {
         } else {
             params.set("filter", filter);
         }
+        params.delete("page");
 
         return params.toString();
     };
 
     const handleCheckboxChange = (priceFilter: string) => {
         const params = new URLSearchParams(searchParams.toString());
+        params.delete("page");
         if (params.get("price") === priceFilter) {
             params.delete("price");
             router.replace(`${pathname}?${params.toString()}`);

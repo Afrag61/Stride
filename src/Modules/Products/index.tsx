@@ -5,7 +5,7 @@ import ProductsListSkeleton from "@/components/Skeleton/ProductsListSkeleton";
 import Categories from "./components/Categories";
 import SideBarSkeleton from "@/components/Skeleton/SideBarSkeleton";
 
-const Index = async () => {
+const Index: React.FC<PageProps<"/products">> = async ({ searchParams }) => {
     return (
         <>
             <PageHeader
@@ -25,7 +25,7 @@ const Index = async () => {
                                 }
                             >
                                 <Categories />
-                                <Products />
+                                <Products searchParams={searchParams} />
                             </Suspense>
                         </div>
                     </div>

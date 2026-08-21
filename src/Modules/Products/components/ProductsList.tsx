@@ -3,139 +3,38 @@
 import type { TProductList } from "@/types";
 import ProductItem from "@/components/UI/ProductItem";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useMemo } from "react";
+import Pagination from "./Pagination";
 
 interface Props {
-    isAuthenticated: boolean;
     products: TProductList;
+    totalCount: number;
+    currentPage: number;
+    totalPages: number;
 }
 
-const ProductsList: React.FC<Props> = ({ products, isAuthenticated }) => {
+const ProductsList: React.FC<Props> = ({
+    products,
+    totalCount,
+    currentPage,
+    totalPages,
+}) => {
     const searchParams = useSearchParams();
     const pathName = usePathname();
     const router = useRouter();
     const currentSort = searchParams.get("sort") || "featured";
 
-    const selectedFilter = searchParams.get("filter");
-    const selectedCategory = searchParams.get("category");
-    const selectedSort = searchParams.get("sort");
-    const selectedPrice = searchParams.get("price");
-    const selectedQuery = searchParams.get("q");
-
-    const filteredProducts = useMemo(() => {
-        if (!products) return [];
-
-        let result = [...products];
-
-        if (selectedQuery) {
-            result = result.filter((product) => {
-                if (
-                    product.name
-                        .toLowerCase()
-                        .includes(selectedQuery.toLowerCase()) ||
-                    product.category.name
-                        .toLowerCase()
-                        .includes(selectedQuery.toLowerCase())
-                ) {
-                    return product;
-                }
-                return null;
-            });
-        }
-
-        if (selectedCategory) {
-            result = result.filter(
-                (product) =>
-                    product.category.name.toLowerCase() ===
-                    selectedCategory.toLowerCase(),
-            );
-        }
-
-        if (selectedFilter === "new") {
-            result = result.filter((product) => product.tag.includes("NEW"));
-        } else if (selectedFilter === "sale") {
-            result = result.filter((product) => product.discount > 0);
-        }
-
-        if (selectedPrice) {
-            switch (selectedPrice) {
-                case "under_100":
-                    result = result.filter(
-                        (product) => product.price_after_discount < 100,
-                    );
-                    break;
-                case "from_100_to_150":
-                    result = result.filter(
-                        (product) =>
-                            product.price_after_discount >= 100 &&
-                            product.price_after_discount < 150,
-                    );
-                    break;
-                case "from_150_to_200":
-                    result = result.filter(
-                        (product) =>
-                            product.price_after_discount >= 150 &&
-                            product.price_after_discount < 200,
-                    );
-                    break;
-                case "above_200":
-                    result = result.filter(
-                        (product) => product.price_after_discount >= 200,
-                    );
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        if (selectedSort) {
-            switch (selectedSort) {
-                case "price-low-to-high":
-                    result.sort(
-                        (a, b) =>
-                            a.price_after_discount - b.price_after_discount,
-                    );
-                    break;
-                case "price-high-to-low":
-                    result.sort(
-                        (a, b) =>
-                            b.price_after_discount - a.price_after_discount,
-                    );
-                    break;
-                case "newest":
-                    result.sort((a, b) =>
-                        a.tag === "NEW" ? -1 : b.tag === "NEW" ? 1 : 0,
-                    );
-                    break;
-                case "top-rated":
-                    result.sort((a, b) => b.rate - a.rate);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return result;
-    }, [
-        products,
-        selectedCategory,
-        selectedFilter,
-        selectedPrice,
-        selectedSort,
-        selectedQuery,
-    ]);
-
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const params = new URLSearchParams(searchParams.toString());
+
         if (e.target.value === "featured") {
             params.delete("sort");
-            router.push(`${pathName}?${params.toString()}`, { scroll: false });
-            return;
         } else {
             params.set("sort", e.target.value);
-            router.push(`${pathName}?${params.toString()}`, { scroll: false });
         }
-        return params;
+
+        params.delete("page");
+
+        router.push(`${pathName}?${params.toString()}`, { scroll: false });
     };
 
     return (
@@ -144,7 +43,7 @@ const ProductsList: React.FC<Props> = ({ products, isAuthenticated }) => {
                 <p className="text-gray-600 dark:text-gray-400">
                     Showing{" "}
                     <span className="font-semibold text-gray-900 dark:text-white">
-                        {products.length}
+                        {totalCount}
                     </span>{" "}
                     products
                 </p>
@@ -179,15 +78,17 @@ const ProductsList: React.FC<Props> = ({ products, isAuthenticated }) => {
                     </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-                    {filteredProducts.map((product) => (
-                        <ProductItem
-                            key={product.id}
-                            {...product}
-                            isAuthenticated={isAuthenticated}
-                        />
-                    ))}
-                </div>
+                <>
+                    <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+                        {products.map((product) => (
+                            <ProductItem key={product.id} {...product} />
+                        ))}
+                    </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                    />
+                </>
             )}
         </div>
     );
