@@ -6,7 +6,6 @@ import { Link } from "@/components/UI/Link";
 import WishlistHeader from "./WishlistHeader";
 import { createClient } from "@/lib/supabase/server";
 import ClientThrower from "@/Modules/Error/ClientThrower";
-import { getUser } from "@/Modules/Auth/lib/getUser";
 
 let content;
 
@@ -60,7 +59,6 @@ const WishListProducts = async () => {
                         <ProductItem
                             key={wishlistItem.id}
                             {...wishlistItem.products}
-                            isAuthenticated={!!user}
                             isFavorite
                         />
                     );

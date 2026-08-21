@@ -42,7 +42,6 @@ const WishlistHeader: React.FC<Props> = ({ length }) => {
 
             <Modal
                 isOpen={isModalOpen}
-                onOpen={() => setIsModalOpen(true)}
                 onClose={() => setIsModalOpen(false)}
                 render={(handleCloseAnimation) => (
                     <div

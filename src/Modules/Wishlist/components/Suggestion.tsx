@@ -7,8 +7,6 @@ import { TProductList } from "@/types";
 
 const Suggestion = async () => {
     const supabase = await createClient();
-    const user = await getUser();
-
     const { data, error } = await supabase
         .from("products")
         .select("*")
@@ -36,11 +34,7 @@ const Suggestion = async () => {
                 {/* ProductSuggestions */}
                 <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
                     {products.map((product) => (
-                        <ProductItem
-                            key={product.id}
-                            {...product}
-                            isAuthenticated={!!user}
-                        />
+                        <ProductItem key={product.id} {...product} />
                     ))}
                 </div>
             </div>
