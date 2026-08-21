@@ -1,27 +1,44 @@
 {
-  "name": "stride-nextjs",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "next": "16.2.7",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.7",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "name": "stride-nextjs",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "next dev --webpack -p 3799",
+        "build": "next build",
+        "start": "next start",
+        "lint": "eslint"
+    },
+    "dependencies": {
+        "@emailjs/nodejs": "^5.0.2",
+        "@gsap/react": "^2.1.2",
+        "@hookform/resolvers": "^5.4.0",
+        "@reduxjs/toolkit": "^2.12.0",
+        "@supabase/ssr": "^0.12.0",
+        "@types/nprogress": "^0.2.3",
+        "gsap": "^3.15.0",
+        "lucide-react": "^1.17.0",
+        "next": "16.2.7",
+        "nprogress": "^0.2.0",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "react-hook-form": "^7.79.0",
+        "react-hot-toast": "^2.6.0",
+        "react-icons": "^5.6.0",
+        "react-phone-number-input": "^3.4.17",
+        "react-redux": "^9.3.0",
+        "redux-persist": "^6.0.0",
+        "zod": "^4.4.3"
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss": "^4",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "babel-plugin-react-compiler": "1.0.0",
+        "eslint": "^9",
+        "eslint-config-next": "16.2.7",
+        "tailwindcss": "^4",
+        "typescript": "^5"
+    }
 }
