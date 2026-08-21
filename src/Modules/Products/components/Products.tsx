@@ -31,7 +31,20 @@ const Products: React.FC<Props> = async ({ searchParams }) => {
         .select("*, category!inner(id, name, href)", { count: "exact" });
 
     if (q) {
-        query = query.ilike("name", `%${q}%`);
+        const { data: matchingCategories } = await supabase
+            .from("categories")
+            .select("id")
+            .ilike("name", `%${q}%`);
+
+        const categoryIds = (matchingCategories ?? []).map((c) => c.id);
+
+        if (categoryIds.length > 0) {
+            query = query.or(
+                `name.ilike.%${q}%,category.in.(${categoryIds.join(",")})`,
+            );
+        } else {
+            query = query.ilike("name", `%${q}%`);
+        }
     }
 
     if (category) {
