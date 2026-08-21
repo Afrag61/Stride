@@ -1,12 +1,16 @@
 # 👟 Stride — Online Shoe Store
 
-**Stride** is a full online shopping website for shoes — think of it like a mini version of Nike's or Adidas' website. Customers can browse shoes by category, view product details, pick their size and color, add items to a cart, save favorites to a wishlist, and create an account to check out.
+**Stride** is a full online shopping website for shoes — think of it like a mini version of Nike's or Adidas' website. Customers can browse shoes by category, search for products, view product details, pick their size and color, add items to a cart, save favorites to a wishlist, check out, and view their past orders.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-blue?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?logo=tailwindcss)
 ![Supabase](https://img.shields.io/badge/Supabase-Auth%20%26%20DB-3ecf8e?logo=supabase)
+
+<!-- 📸 Add a screenshot or GIF of the homepage / product page here, e.g.:
+![Homepage screenshot](docs/screenshot-home.png)
+-->
 
 ### What this project actually is (in plain terms)
 
@@ -20,12 +24,15 @@
 ## ✨ Features
 
 - 🛍️ **Product catalog** — browse products by category, view details, pick size & color
+- 🔎 **Product search** — search bar in the header navigates to filtered product results
+- 📄 **Pagination** — product listing pages are paginated
 - 🛒 **Cart** — powered by Redux Toolkit + `redux-persist`, so it survives page reloads
 - ❤️ **Wishlist** — save favorite products (synced with Supabase per user)
+- 📦 **Order history** — logged-in users can view their past orders in their account
 - 🔐 **Authentication** — login / register / logout via Supabase Auth, with route protection through Next.js middleware (`src/proxy.ts`)
 - 👤 **Account settings** — manage profile info
 - 📧 **Newsletter signup** — sends emails via EmailJS
-- 🌗 **Light / Dark theme** — theme context + toggle
+- 🌗 **Light / Dark theme** — theme context & toggle
 - 🎬 **Animations** — powered by GSAP
 - ✅ **Form validation** — `react-hook-form` + `zod`
 - 📱 Fully responsive UI styled with **Tailwind CSS v4**
@@ -59,17 +66,17 @@ src/
 │   └── wishlist/
 ├── Modules/               # Feature-based modules (UI + logic per feature)
 │   ├── About/
-│   ├── Account/
+│   ├── Account/            # Account profile, settings, order history (Orders, OrderItem)
 │   ├── Auth/               # Auth context, hooks, login/register logic
 │   ├── Cart/
 │   ├── Categories/
 │   ├── Error/
 │   ├── Footer/
-│   ├── Header/
+│   ├── Header/             # incl. functional header search (navigates to /products?q=...)
 │   ├── Home/               # Hero, Categories, Products, Testimonials, Newsletter
 │   ├── NotFound/
 │   ├── ProductDetails/
-│   ├── Products/
+│   ├── Products/           # Product listing, sidebar filters, pagination
 │   ├── Theme/               # Light/dark theme context & toggle
 │   └── Wishlist/
 ├── Redux/                   # Redux store, cart slice, persisted storage
@@ -154,6 +161,13 @@ Auth is handled by Supabase (`@supabase/ssr`). `src/proxy.ts` acts as Next.js mi
 ## 🛒 State Management
 
 The cart lives in Redux (`src/Redux/cartSlice`) and is persisted to storage via `redux-persist` (`src/Redux/storage.ts`), so items stay in the cart across page reloads and browser sessions.
+
+## 🆕 Recent Changes
+
+- Added **Order History** to the account section (view past orders, pulled from Supabase)
+- Header **search bar is now functional** — submitting a search takes you to `/products?q=...`
+- Added **pagination** to the product listing page
+- Minor cleanup and fixes across the account, cart, and products modules
 
 ## 📝 Notes
 
