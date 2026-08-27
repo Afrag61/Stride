@@ -2,6 +2,7 @@
 
 import { LogOut } from "lucide-react";
 import { useAuth } from "@/Modules/Auth/hooks/useAuth";
+import Image from "next/image";
 
 const getInitials = (name?: string, email?: string) => {
     if (name) {
@@ -23,13 +24,23 @@ interface Props {
 }
 
 const Profile: React.FC<Props> = ({ name, email }) => {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
     return (
         <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900 dark:border-gray-850 text-center">
-            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-tr from-primary-600 to-primary-400 text-white text-3xl font-bold tracking-wider shadow-lg">
-                {getInitials(name, email)}
-            </div>
+            {user?.user_metadata?.picture ? (
+                <Image
+                    src={user.user_metadata.picture}
+                    className="rounded-full mx-auto w-24 h-24 object-cover ring-2 ring-primary-600 dark:ring-primary-500 ring-offset-4 ring-offset-white dark:ring-offset-gray-900 "
+                    alt={name}
+                    width={100}
+                    height={100}
+                />
+            ) : (
+                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-tr from-primary-600 to-primary-400 text-white text-3xl font-bold tracking-wider shadow-lg">
+                    {getInitials(name, email)}
+                </div>
+            )}
             <h2 className="mt-4 text-xl font-bold text-gray-900 dark:text-white">
                 {name || "Valued Customer"}
             </h2>
