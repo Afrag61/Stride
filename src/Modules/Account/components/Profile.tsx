@@ -26,8 +26,6 @@ interface Props {
 const Profile: React.FC<Props> = ({ name, email }) => {
     const { logout, user } = useAuth();
 
-    console.log(user);
-
     return (
         <div className="rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-900 dark:border-gray-850 text-center">
             {user?.user_metadata?.picture ? (
