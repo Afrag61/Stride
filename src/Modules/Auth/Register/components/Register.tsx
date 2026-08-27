@@ -6,6 +6,7 @@ import { Controller } from "react-hook-form";
 import { Mail, Lock, ArrowRight, Loader2, User, Eye } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import AuthProviders from "../../components/AuthProviders";
 
 const RegisterPage = () => {
     const {
@@ -278,6 +279,8 @@ const RegisterPage = () => {
                         )}
                     </button>
                 </form>
+
+                <AuthProviders />
 
                 <div className="text-center text-sm">
                     <p className="text-gray-600 dark:text-gray-400">

@@ -3,6 +3,7 @@ import { Link } from "@/components/UI/Link";
 import { Mail, Lock, ArrowRight, Loader2, Eye } from "lucide-react";
 import { useLoginForm } from "../hooks/useLoginForm";
 import { Controller } from "react-hook-form";
+import AuthProviders from "@/Modules/Auth/components/AuthProviders";
 
 const LoginPage = () => {
     const {
@@ -159,6 +160,8 @@ const LoginPage = () => {
                         )}
                     </button>
                 </form>
+
+                <AuthProviders />
 
                 <div className="text-center text-sm">
                     <p className="text-gray-600 dark:text-gray-400">

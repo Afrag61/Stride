@@ -21,6 +21,7 @@ interface TAuthContext {
         email: string;
         password: string;
     }) => Promise<{ error?: string; needsEmailConfirmation?: boolean }>;
+    loginWithGoogle: (redirectTo?: string) => Promise<{ error?: string }>;
 }
 
 export const AuthContext = createContext<TAuthContext>({
@@ -31,6 +32,7 @@ export const AuthContext = createContext<TAuthContext>({
     login: async () => ({}),
     logout: async () => ({}),
     register: async () => ({}),
+    loginWithGoogle: async () => ({}),
 });
 
 interface AuthProviderProps {
@@ -98,6 +100,26 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return {};
     };
 
+    const loginWithGoogle: TAuthContext["loginWithGoogle"] = async (
+        redirectTo,
+    ) => {
+        const safeNext = getSafeRedirect(redirectTo);
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+                redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(
+                    safeNext,
+                )}`,
+            },
+        });
+
+        if (error) {
+            return { error: "Something went wrong. Please try again." };
+        }
+
+        return {};
+    };
+
     const logout: TAuthContext["logout"] = async () => {
         const { error } = await supabase.auth.signOut();
 
@@ -146,6 +168,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         login,
         logout,
         register,
+        loginWithGoogle,
     };
 
     return (

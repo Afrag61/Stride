@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/components/UI/Link";
-import { Heart, User } from "lucide-react";
+import { Heart, LogIn, User } from "lucide-react";
 import ThemeToggle from "@/Modules/Theme/components/theme-toggle";
 import Search from "./Search";
 import Logout from "@/Modules/Auth/Logout";
@@ -43,12 +43,22 @@ const Actions = () => {
                             <Logout />
                         </>
                     ) : (
-                        <Link
-                            href="/login"
-                            className="ml-2 hidden sm:flex text-sm font-medium font-display text-white px-2.5 py-1 rounded-lg bg-primary-600 hover:bg-primary-700 shadow-md hover:shadow-lg shadow-primary-500/30 hover:shadow-primary-700/30 transition-all duration-300"
-                        >
-                            Sign In
-                        </Link>
+                        <>
+                            <Link
+                                href="/login"
+                                className="ml-2 hidden sm:flex gap-1 text-sm font-medium font-display dark:text-white text-gray-900 hover:text-primary-600 dark:hover:text-primary-500 px-2.5 py-1 rounded-lg transition-all duration-300"
+                            >
+                                Login
+                                <LogIn className="h-5 w-5" />
+                            </Link>
+                            <Link
+                                href="/login"
+                                title="Login"
+                                className="flex items-center justify-center sm:hidden text-xs dark:text-white text-gray-900 hover:text-primary-600 dark:hover:text-primary-500 px-2.5 py-1 rounded-lg transition-all duration-300"
+                            >
+                                <LogIn className="h-5 w-5" />
+                            </Link>
+                        </>
                     )}
                 </div>
             </div>
