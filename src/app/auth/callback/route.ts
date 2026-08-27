@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 const getSafeRedirect = (redirectTo: string | null) => {
     if (
@@ -15,14 +16,18 @@ const getSafeRedirect = (redirectTo: string | null) => {
 export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url);
     const code = searchParams.get("code");
-    const next = getSafeRedirect(searchParams.get("next"));
+
+    const cookieStore = await cookies();
+    const next = getSafeRedirect(cookieStore.get("oauth_next")?.value ?? null);
 
     if (code) {
         const supabase = await createClient();
         const { error } = await supabase.auth.exchangeCodeForSession(code);
 
         if (!error) {
-            return NextResponse.redirect(`${origin}${next}`);
+            const response = NextResponse.redirect(`${origin}${next}`);
+            response.cookies.delete("oauth_next");
+            return response;
         }
     }
 

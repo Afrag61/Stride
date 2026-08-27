@@ -104,12 +104,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         redirectTo,
     ) => {
         const safeNext = getSafeRedirect(redirectTo);
+
+        document.cookie = `oauth_next=${encodeURIComponent(safeNext)}; path=/; max-age=600; SameSite=Lax`;
+
         const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
-                redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(
-                    safeNext,
-                )}`,
+                redirectTo: `${window.location.origin}/auth/callback`,
             },
         });
 
