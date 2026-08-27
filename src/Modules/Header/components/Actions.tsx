@@ -7,9 +7,10 @@ import Search from "./Search";
 import Logout from "@/Modules/Auth/Logout";
 import CartButton from "./CartButton";
 import { useAuth } from "@/Modules/Auth/hooks/useAuth";
+import Image from "next/image";
 
 const Actions = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
 
     return (
         <>
@@ -35,10 +36,21 @@ const Actions = () => {
                         <>
                             <Link
                                 href="/account"
-                                className="rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 p-2"
+                                className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 p-2"
                                 title="Account"
                             >
-                                <User className="h-5 w-5" />
+                                {isAuthenticated &&
+                                user?.user_metadata.picture ? (
+                                    <Image
+                                        src={user.user_metadata.picture}
+                                        alt={user.user_metadata.name}
+                                        width={100}
+                                        height={100}
+                                        className="rounded-full w-6 h-6 sm:w-8 sm:h-8 object-cover"
+                                    />
+                                ) : (
+                                    <User className="h-5 w-5" />
+                                )}
                             </Link>
                             <Logout />
                         </>
