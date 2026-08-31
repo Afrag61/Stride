@@ -5,17 +5,14 @@ import { useAuth } from "@/Modules/Auth/hooks/useAuth";
 import { useCart } from "@/Modules/Cart/hooks/useCart";
 import { Handbag } from "lucide-react";
 
-interface Props {
-    userId: string | false;
-}
-
-const CartButton /*: React.FC<Props>*/ = (/*{ userId }*/) => {
+const CartButton = () => {
     const { totalQuantity } = useCart();
     const { isAuthenticated } = useAuth();
 
     return (
         <Link
             href="/cart"
+            prefetch={false}
             title="Cart"
             aria-label="Cart"
             className="relative rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 p-2"

@@ -1,1 +1,2 @@
-export { default, metadata } from "@/Modules/Auth/login";
+export * from "@/Modules/Auth/login";
+export { default } from "@/Modules/Auth/login";
