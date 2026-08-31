@@ -1,1 +1,2 @@
-export { default, metadata } from "@/Modules/Cart";
+export * from "@/Modules/Cart";
+export { default } from "@/Modules/Cart";

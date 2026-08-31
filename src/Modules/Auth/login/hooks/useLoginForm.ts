@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema, TLoginFormData } from "../../validation";
-import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { useAuth } from "../../hooks/useAuth";
 import { useState } from "react";
@@ -24,13 +23,9 @@ export const useLoginForm = () => {
 
     const { login } = useAuth();
 
-    const searchParams = useSearchParams();
-
-    const redirectTo = searchParams.get("next") || "/";
-
     const onSubmit = async ({ email, password }: TLoginFormData) => {
         try {
-            const { error } = await login({ email, password }, redirectTo);
+            const { error } = await login({ email, password });
 
             if (error) {
                 toast.error(error, {

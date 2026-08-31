@@ -1,6 +1,5 @@
 "use client";
 
-import { Link } from "@/components/UI/Link";
 import useMobileNavigation from "../hooks/useMobileNavigation";
 import { navLinks } from "../NavLinks";
 import { Menu, X } from "lucide-react";

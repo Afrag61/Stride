@@ -36,6 +36,7 @@ const NotFound = () => {
             {/* Actions */}
             <div className="mt-12 flex flex-col gap-4 sm:flex-row animate-in slide-in-from-bottom-8 fade-in duration-700 delay-200 fill-mode-both">
                 <Link
+                    prefetch={false}
                     href="/"
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-primary-600 px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-primary-500/30 transition-all hover:bg-primary-700 hover:shadow-xl active:scale-95"
                 >

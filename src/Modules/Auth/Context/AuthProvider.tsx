@@ -1,19 +1,20 @@
 "use client";
 
 import { AuthError, type User } from "@supabase/supabase-js";
-import { createContext, use, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { getStoredRedirect, clearStoredRedirect } from "../lib/nextRedirect";
 
 interface TAuthContext {
     user: User | null;
     isLoading: boolean;
     error: AuthError | null;
     isAuthenticated: boolean;
-    login: (
-        data: { email: string; password: string },
-        redirectTo?: string,
-    ) => Promise<{ error?: string }>;
+    login: (data: {
+        email: string;
+        password: string;
+    }) => Promise<{ error?: string }>;
     logout: () => Promise<{ error?: string }>;
     register: (data: {
         fullName: string;
@@ -21,7 +22,7 @@ interface TAuthContext {
         email: string;
         password: string;
     }) => Promise<{ error?: string; needsEmailConfirmation?: boolean }>;
-    loginWithGoogle: (redirectTo?: string) => Promise<{ error?: string }>;
+    loginWithGoogle: () => Promise<{ error?: string }>;
 }
 
 export const AuthContext = createContext<TAuthContext>({
@@ -38,17 +39,6 @@ export const AuthContext = createContext<TAuthContext>({
 interface AuthProviderProps {
     children: React.ReactNode;
 }
-
-const getSafeRedirect = (redirectTo?: string) => {
-    if (
-        redirectTo &&
-        redirectTo.startsWith("/") &&
-        !redirectTo.startsWith("//")
-    ) {
-        return redirectTo;
-    }
-    return "/";
-};
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<TAuthContext["user"]>(null);
@@ -85,7 +75,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         };
     }, []);
 
-    const login: TAuthContext["login"] = async (data, redirectTo) => {
+    const login: TAuthContext["login"] = async (data) => {
         const { error } = await supabase.auth.signInWithPassword(data);
 
         if (error) {
@@ -95,18 +85,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             return { error: "Something went wrong. Please try again." };
         }
 
-        router.push(getSafeRedirect(redirectTo));
-        router.refresh();
+        window.location.href = "/auth/callback";
+
         return {};
     };
 
-    const loginWithGoogle: TAuthContext["loginWithGoogle"] = async (
-        redirectTo,
-    ) => {
-        const safeNext = getSafeRedirect(redirectTo);
-
-        document.cookie = `oauth_next=${encodeURIComponent(safeNext)}; path=/; max-age=600; SameSite=Lax`;
-
+    const loginWithGoogle: TAuthContext["loginWithGoogle"] = async () => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
@@ -129,7 +113,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
 
         router.push("/login");
-        router.refresh();
+
         return {};
     };
 
@@ -156,8 +140,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             return { needsEmailConfirmation: true };
         }
 
-        router.push("/");
-        router.refresh();
+        window.location.href = "/auth/callback";
         return {};
     };
 

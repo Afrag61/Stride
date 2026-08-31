@@ -45,9 +45,15 @@ export const proxy = async (request: NextRequest) => {
     if (isProtectedRoute && !user && !isNetworkError) {
         const loginUrl = new URL("/login", request.url);
 
-        loginUrl.searchParams.set("next", request.nextUrl.pathname);
+        response = NextResponse.redirect(loginUrl);
 
-        return NextResponse.redirect(loginUrl);
+        response.cookies.set("next_redirect", request.nextUrl.pathname, {
+            path: "/",
+            maxAge: 600,
+            sameSite: "lax",
+        });
+
+        return response;
     }
 
     if (
@@ -56,6 +62,13 @@ export const proxy = async (request: NextRequest) => {
         user
     ) {
         return NextResponse.rewrite(new URL("/", request.url));
+    }
+
+    if (
+        request.nextUrl.pathname === "/" &&
+        request.cookies.get("next_redirect")
+    ) {
+        response.cookies.delete("next_redirect");
     }
 
     return response;

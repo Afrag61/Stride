@@ -46,6 +46,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, description }) => {
                     <ol className="flex items-center gap-2">
                         <li className="flex items-center gap-2">
                             <Link
+                                prefetch={false}
                                 href="/"
                                 className="text-gray-500 transition-colors hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-500 font-medium"
                             >

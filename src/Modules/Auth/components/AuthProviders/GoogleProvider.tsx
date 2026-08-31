@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
@@ -10,14 +9,11 @@ import { FcGoogle } from "react-icons/fc";
 const GoogleProvider = () => {
     const { loginWithGoogle } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
-    const searchParams = useSearchParams();
-
-    const redirectTo = searchParams.get("next") || "/";
 
     const handleGoogleLogin = async () => {
         try {
             setIsLoading(true);
-            const { error } = await loginWithGoogle(redirectTo);
+            const { error } = await loginWithGoogle();
 
             if (error) {
                 toast.error(error, {
