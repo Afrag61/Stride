@@ -104,3 +104,20 @@ export interface TOrder {
 }
 
 export type TOrderList = Array<TOrder>;
+
+export enum TActionType {
+    ADD_TO_CART = "ADD_TO_CART",
+    ADD_TO_WISHLIST = "ADD_TO_WISHLIST",
+}
+
+interface TPendingCartAction {
+    type: TActionType.ADD_TO_CART;
+    payload: TCartItem;
+}
+
+interface TPendingWishlistAction {
+    type: TActionType.ADD_TO_WISHLIST;
+    payload: { productId: number };
+}
+
+export type TPendingActions = TPendingCartAction | TPendingWishlistAction;
