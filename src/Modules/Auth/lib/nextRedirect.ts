@@ -6,6 +6,17 @@ const getSafeRedirect = (value: string | null) => {
     }
     return "/";
 };
+
+export const setStoredRedirect = (value: string) => {
+    if (typeof document === "undefined") return;
+
+    const safeRedirect = getSafeRedirect(value);
+
+    document.cookie = `${COOKIE_NAME}=${encodeURIComponent(safeRedirect)}; path=/; max-age=600; sameSite=lax`;
+
+    return;
+};
+
 export const getStoredRedirect = (): string => {
     if (typeof document === "undefined") return "/";
 

@@ -8,13 +8,14 @@ import ProductColors from "./ProductColors";
 import ProductSizes from "./ProductSizes";
 import ProductActions from "./ProductActions";
 import ProductMaterials from "./ProductMaterials";
-import { TProduct } from "@/types";
+import { TActionType, TProduct, TCartItem } from "@/types";
 import { CarFront, RefreshCcw, StarIcon } from "lucide-react";
 import { addToWishlist, removeFromWishlist } from "@/Modules/Wishlist/actions";
 import toast from "react-hot-toast";
-import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/Modules/Cart/hooks/useCart";
 import { useAuth } from "@/Modules/Auth/hooks/useAuth";
+
+import { useAuthGatedAction } from "@/Modules/Auth/hooks/useAuthGatedAction";
 
 interface Props {
     product: TProduct;
@@ -30,19 +31,15 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
         (state) => !state,
     );
     const [isPending, startTransition] = useTransition();
-
-    const router = useRouter();
-    const pathname = usePathname();
-
     const { handleAddToCart } = useCart();
+    const guardCart = useAuthGatedAction<TCartItem>({
+        isAuthenticated,
+        type: TActionType.ADD_TO_CART,
+        run: handleAddToCart,
+        signInMessage: "Please sign in to add items to your cart",
+    });
 
-    const handleWishList = async () => {
-        if (!isAuthenticated) {
-            toast.error("Please sign in to manage your wishlist");
-            router.push(`/login?next=${pathname}`);
-            return;
-        }
-
+    const handleWishList = async (productId: number) => {
         startTransition(async () => {
             toggleOptimisticLike(null);
 
@@ -50,7 +47,7 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
 
             if (!wasLiked) {
                 setIsLiked(true);
-                const error = await addToWishlist(product.id);
+                const error = await addToWishlist(productId);
 
                 if (error) {
                     setIsLiked(wasLiked);
@@ -78,6 +75,13 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
         });
     };
 
+    const guardWishlist = useAuthGatedAction<{ productId: number }>({
+        isAuthenticated,
+        type: TActionType.ADD_TO_WISHLIST,
+        run: (payload) => handleWishList(payload.productId),
+        signInMessage: "Please sign in to add items to your wishlist",
+    });
+
     const rate = product?.rate || 0;
     const stars = Array.from({ length: 5 }, (_, index) => (
         <StarIcon
@@ -95,17 +99,11 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
     };
 
     const handleCart = () => {
-        if (!isAuthenticated) {
-            toast.error("Please sign in to add items to your cart");
-            router.push(`/login?next=${pathname}`);
-            return;
-        }
-
         if (!product?.id) {
             return;
         }
 
-        handleAddToCart({
+        guardCart({
             productId: product.id,
             name: product.name,
             price: product.price,
@@ -203,7 +201,11 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
 
                             {/* Product Actions */}
                             <ProductActions
-                                handleAddToWishlist={handleWishList}
+                                handleAddToWishlist={() =>
+                                    guardWishlist({
+                                        productId: product.id,
+                                    })
+                                }
                                 isFavorite={optimisticIsLiked}
                                 isLoading={isPending}
                                 handleAddToCart={handleCart}
