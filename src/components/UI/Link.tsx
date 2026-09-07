@@ -9,7 +9,8 @@ function resolveHref(href: ComponentProps<typeof NextLink>["href"]): string {
     if (typeof href === "string") return href;
     if (!href) return "";
     const search = href.query
-        ? "?" + new URLSearchParams(href.query as Record<string, string>).toString()
+        ? "?" +
+          new URLSearchParams(href.query as Record<string, string>).toString()
         : "";
     return (href.pathname || "") + search;
 }
@@ -22,17 +23,25 @@ export const Link = forwardRef<
         (event: { preventDefault: () => void }) => {
             const target = resolveHref(props.href);
             const current = window.location.pathname + window.location.search;
+
             if (target !== current) {
                 nprogress.start();
+
+                setTimeout(() => {
+                    if (
+                        window.location.pathname + window.location.search ===
+                        current
+                    ) {
+                        nprogress.done();
+                    }
+                }, 2000);
             }
             onNavigate?.(event);
         },
         [props.href, onNavigate],
     );
 
-    return (
-        <NextLink ref={ref} onNavigate={handleNavigate} {...props} />
-    );
+    return <NextLink ref={ref} onNavigate={handleNavigate} {...props} />;
 });
 
 Link.displayName = "Link";

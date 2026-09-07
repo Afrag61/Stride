@@ -4,7 +4,6 @@ import { AuthError, type User } from "@supabase/supabase-js";
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { getStoredRedirect, clearStoredRedirect } from "../lib/nextRedirect";
 
 interface TAuthContext {
     user: User | null;
