@@ -10,10 +10,10 @@ const Index = () => {
     const { logout } = useAuth();
 
     const handleLogout = async () => {
-        try {
-            handleClearCart();
-            await logout();
-        } catch (error) {
+        handleClearCart();
+        const { error } = await logout();
+
+        if (error) {
             toast.error(error as any);
         }
     };

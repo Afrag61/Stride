@@ -55,7 +55,7 @@ const ScrollIndicator = () => {
         <button
             onClick={scrollToTop}
             title="Scroll to top"
-            className="fixed bottom-3 left-3 z-50 cursor-pointer group bg-black/80 rounded-full"
+            className="fixed bottom-15 left-3 z-50 cursor-pointer group bg-black/80 rounded-full opacity-50 active:opacity-100 hover:opacity-100 transition-opacity duration-300"
         >
             <svg
                 width="48"

@@ -4,7 +4,6 @@ import { AuthError, type User } from "@supabase/supabase-js";
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { getStoredRedirect, clearStoredRedirect } from "../lib/nextRedirect";
 
 interface TAuthContext {
     user: User | null;
@@ -47,7 +46,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const router = useRouter();
 
     useEffect(() => {
-        const getUser = async () => {
+        const handlePopState = () => {
+            router.refresh();
+        };
+
+        (async () => {
             const {
                 data: { session },
                 error,
@@ -59,9 +62,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             setUser(session?.user || null);
             setIsLoading(false);
-        };
-
-        getUser();
+        })();
 
         const {
             data: { subscription },
@@ -70,10 +71,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setIsLoading(false);
         });
 
+        window.addEventListener("popstate", handlePopState);
+
         return () => {
             subscription.unsubscribe();
+            window.removeEventListener("popstate", handlePopState);
         };
-    }, []);
+    }, [router]);
 
     const login: TAuthContext["login"] = async (data) => {
         const { error } = await supabase.auth.signInWithPassword(data);

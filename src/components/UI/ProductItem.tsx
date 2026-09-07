@@ -1,6 +1,6 @@
 "use client";
 
-import type { TProduct } from "@/types";
+import { TActionType, type TCartItem, type TProduct } from "@/types";
 import { Handbag, Heart, Star } from "lucide-react";
 import { Link } from "@/components/UI/Link";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { useOptimistic, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/Modules/Auth/hooks/useAuth";
+import { useAuthGatedAction } from "@/Modules/Auth/hooks/useAuthGatedAction";
 
 const ProductItem: React.FC<TProduct> = ({
     id,
@@ -37,14 +38,14 @@ const ProductItem: React.FC<TProduct> = ({
         (currentState, _) => !currentState,
     );
     const [pending, startTransition] = useTransition();
+    const guardCart = useAuthGatedAction<TCartItem>({
+        isAuthenticated,
+        type: TActionType.ADD_TO_CART,
+        run: handleAddToCart,
+        signInMessage: "Please sign in to add items to your cart",
+    });
 
-    const handleLike = async () => {
-        if (!isAuthenticated) {
-            toast.error("Please sign in to manage your wishlist");
-            router.push(`/login?next=${pathname}`);
-            return;
-        }
-
+    const handleLike = async (productId: number) => {
         startTransition(async () => {
             toggleOptimisticLike(null);
 
@@ -52,7 +53,7 @@ const ProductItem: React.FC<TProduct> = ({
 
             if (!wasLiked) {
                 setIsLiked(true);
-                const error = await addToWishlist(id);
+                const error = await addToWishlist(productId);
 
                 if (error) {
                     setIsLiked(wasLiked);
@@ -80,16 +81,17 @@ const ProductItem: React.FC<TProduct> = ({
         });
     };
 
+    const guardWishlist = useAuthGatedAction<{ productId: number }>({
+        isAuthenticated,
+        type: TActionType.ADD_TO_WISHLIST,
+        run: ({ productId }) => handleLike(productId),
+        signInMessage: "Please sign in to add items to your wishlist",
+    });
+
     const handleCart: React.MouseEventHandler = (e) => {
         e.preventDefault();
 
-        if (!isAuthenticated) {
-            toast.error("Please sign in to add items to your cart");
-            router.push(`/login?next=${pathname}`);
-            return;
-        }
-
-        handleAddToCart({
+        guardCart({
             price,
             name,
             color: colors[0],
@@ -133,10 +135,10 @@ const ProductItem: React.FC<TProduct> = ({
                         </span>
                     </div>
                     {/* Quick Actions */}
-                    <div className="absolute bottom-3 left-3 right-3 flex gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100 max-sm:opacity-100">
+                    <div className="hidden absolute bottom-3 left-3 right-3 lg:flex gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100 max-sm:opacity-100">
                         <button
                             onClick={handleCart}
-                            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-white py-2.5 text-sm font-semibold text-gray-900 shadow-lg transition-colors hover:bg-gray-100 cursor-pointer"
+                            className="flex flex-1 items-center justify-center gap-0.5 rounded-lg bg-white py-1.5 text-nowrap sm:text-sm font-semibold text-gray-900 shadow-lg transition-colors hover:bg-gray-100 cursor-pointer"
                         >
                             <Handbag className="h-4 w-4 text-gray-950" /> Add to
                             Cart
@@ -144,7 +146,7 @@ const ProductItem: React.FC<TProduct> = ({
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
-                                handleLike();
+                                guardWishlist({ productId: id });
                             }}
                             disabled={pending}
                             className="flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-lg transition-colors hover:bg-gray-100 dark:text-black cursor-pointer"
@@ -160,6 +162,27 @@ const ProductItem: React.FC<TProduct> = ({
                     </div>
                 </div>
             </Link>
+            <div className="lg:hidden my-4 flex gap-2 transition-all duration-300">
+                <button
+                    onClick={handleCart}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-white py-2.5 text-nowrap text-sm font-semibold text-gray-900 shadow-lg transition-colors hover:bg-gray-100 cursor-pointer"
+                >
+                    <Handbag className="h-4 w-4 text-gray-950" /> Add to Cart
+                </button>
+                <button
+                    onClick={() => guardWishlist({ productId: id })}
+                    disabled={pending}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-lg transition-colors hover:bg-gray-100 dark:text-black cursor-pointer"
+                >
+                    <Heart
+                        className={`h-4 w-4 transition-all duration-200 ${pending && "animate-pulse"} ${
+                            optimisticIsLiked
+                                ? "fill-red-500 stroke-red-500 scale-110"
+                                : "fill-none stroke-red-600"
+                        }`}
+                    />
+                </button>
+            </div>
             {/* Product Info */}
             <div className="mt-4">
                 <div className="flex items-start justify-between gap-2">
